@@ -6,7 +6,7 @@ public class Spawner : MonoBehaviour {
 
     [Tooltip("Spawn Id")]
     [SerializeField] private int spawnNumber = 1;
-
+   
     [Tooltip("Enable Spawn (FOR TESTING)")]
     [SerializeField] private bool spawn = true;
 
@@ -60,7 +60,7 @@ public class Spawner : MonoBehaviour {
         Enemies.Add(EnemyTypes.Medium, enemy2);
 
 
-
+        print("test");
 
 
 
