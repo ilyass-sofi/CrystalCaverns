@@ -36,5 +36,9 @@ public class Base : MonoBehaviour {
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
             }
         }
+        else if (colTag == "WayToBase")
+        {
+            Destroy(colObj.GetComponent<UnityEngine.AI.NavMeshAgent>());
+        }
     }
 }

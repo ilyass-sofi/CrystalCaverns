@@ -24,18 +24,13 @@ public class Spawn : MonoBehaviour {
     [SerializeField] private int waveDificultyModifier;
 
     [SerializeField] private GameObject[] enemies;
+    [SerializeField] private GameObject wayToBasePrefab;
 
 
-
-
-    // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        WayToBase();
         newTimeBetEnemies = defaultTimeBetEnemies;
-    }
-	
-	// Update is called once per frame
-	void Update () {
-        
     }
 
     public void Manager(int actualWave)
@@ -117,4 +112,19 @@ public class Spawn : MonoBehaviour {
         if (LevelManager.Instance.EnemiesAlive == 0 && !spawning) LevelManager.Instance.SetBuildingPhase();
     }
 
+    private void WayToBase()
+    {
+        for (int i = 0; i < spawners.Length; i++)
+        {
+            for (int j = 0; j < objectives.Length; j++)
+            {
+                GameObject road = Instantiate(wayToBasePrefab, spawners[i].transform.position, Quaternion.identity);
+                road.GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(objectives[j].transform.position);
+                road.GetComponent<RoadLaser>().shop = shop;
+                road.GetComponent<RoadLaser>().currentTarget = objectives[j];
+            }
+        }
+        
+
+    }
 }

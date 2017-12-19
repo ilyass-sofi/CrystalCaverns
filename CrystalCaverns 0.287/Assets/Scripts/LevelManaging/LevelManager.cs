@@ -13,9 +13,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject buildingPanel;
     [SerializeField] private GameObject trapsPanel;
     [SerializeField] private GameObject spellsPanel;
-    
     private Material openShopMat;
     private Material closedShopMat;
+   
 
     private GameObject player; //Transform this into a list in multiplayer
     [SerializeField] private Text waveCountText;
@@ -32,6 +32,8 @@ public class LevelManager : MonoBehaviour
     private GameObject UIManager;
     [HideInInspector] public enum LevelPhase { Wave, Building };
     [HideInInspector] public LevelPhase levelCurrentPhase;
+  
+
 
     private int enemiesAlive;
 
@@ -62,7 +64,6 @@ public class LevelManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Friendly");
         openShopMat = (Material)Resources.Load("Materials/GreenEmissive");
         closedShopMat = (Material)Resources.Load("Materials/RedEmissive");
-
     }
 
     public void SetBuildingPhase()
@@ -82,6 +83,9 @@ public class LevelManager : MonoBehaviour
             //If he is then decrease the building time and adapt the text timer
             buildingTime -= Time.deltaTime;
             timerBuildingText.text = System.String.Format("{0:00}:{1:00}", (int)(buildingTime / 60), (int)(buildingTime % 60));
+
+            
+            
 
             if (Input.GetKeyDown(KeyCode.T))
             {
@@ -162,6 +166,6 @@ public class LevelManager : MonoBehaviour
         UIManager.GetComponent<Crosshair>().drawCrosshair = value;
     }
 
-
+    
 
 }

@@ -12,6 +12,7 @@ TagManager:
   - LevelManager
   - Shop
   - UIManager
+  - WayToBase
   layers:
   - Default
   - TransparentFX
