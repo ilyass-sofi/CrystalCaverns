@@ -29,7 +29,7 @@ public class Spawn : MonoBehaviour {
 
     void Start ()
     {
-        WayToBase();
+       
         newTimeBetEnemies = defaultTimeBetEnemies;
     }
 
@@ -64,6 +64,8 @@ public class Spawn : MonoBehaviour {
 
     private IEnumerator SpawnEnemies()
     {
+        EnemiesRoad();
+        yield return new WaitForSeconds(5);
         GameObject enemy;
         int enemyValue;
 
@@ -112,7 +114,7 @@ public class Spawn : MonoBehaviour {
         if (LevelManager.Instance.EnemiesAlive == 0 && !spawning) LevelManager.Instance.SetBuildingPhase();
     }
 
-    private void WayToBase()
+    private void EnemiesRoad()
     {
         for (int i = 0; i < spawners.Length; i++)
         {
