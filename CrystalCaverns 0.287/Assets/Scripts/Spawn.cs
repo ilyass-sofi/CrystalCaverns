@@ -64,8 +64,6 @@ public class Spawn : MonoBehaviour {
 
     private IEnumerator SpawnEnemies()
     {
-        EnemiesRoad();
-        yield return new WaitForSeconds(5);
         GameObject enemy;
         int enemyValue;
 
@@ -114,7 +112,7 @@ public class Spawn : MonoBehaviour {
         if (LevelManager.Instance.EnemiesAlive == 0 && !spawning) LevelManager.Instance.SetBuildingPhase();
     }
 
-    private void EnemiesRoad()
+    public void EnemiesRoad()
     {
         for (int i = 0; i < spawners.Length; i++)
         {

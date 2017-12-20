@@ -57,12 +57,6 @@ public class Fire : MonoBehaviour, ISpells
     [SerializeField]
     private bool godMode = true;
 
-    //Tendra que importar los prefabs de ressources
-    private void Awake()
-    {
-
-    }
-
     private void Start()
     {
         mage = GetComponent<Mage>();
@@ -73,7 +67,7 @@ public class Fire : MonoBehaviour, ISpells
 
     void Update()
     {
-
+        //check combat
         if (fireSpiralPlacement)
         {
 

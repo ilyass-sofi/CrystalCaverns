@@ -113,7 +113,7 @@ public class Builder : MonoBehaviour {
                     inventory[name]--;
                     builtTraps[name]++;
                     UpdateQuantityHUD(name);
-                    //Set traps custom behaviour here (You have to set the type on the Building class of the trap)
+                    //Set traps custom behaviour when placed here (You have to set the type on the Building class of the trap)
                     switch (name)
                     {
                         case "ArcaneTower":
@@ -169,19 +169,24 @@ public class Builder : MonoBehaviour {
                 {
                     currentObject.SetActive(true);
                     //If it hits a buildable object like the Ground and the building does not collide with other objects
-                    if (hit.transform.gameObject.tag == "Ground" && currentObject.GetComponent<Building>().getBuildable() && Vector3.Distance(transform.position, hit.point) < buildingRange && inventory[currentObject.GetComponent<Building>().Type] > 0)
+                    if (hit.transform.gameObject.tag == "Ground")
                     {
+                        currentObject.transform.position = new Vector3(Mathf.Round(hit.point.x) , hit.point.y, Mathf.Round(hit.point.z));
+
+                        if (currentObject.GetComponent<Building>().getBuildable() && Vector3.Distance(transform.position, hit.point) < buildingRange && inventory[currentObject.GetComponent<Building>().Type] > 0)
+                        {
                         //Set the material to buildable green and position it on that spot but with rounded position
                         currentObject.GetComponent<Renderer>().material = buildable;
-                        currentObject.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z));
+                        currentObject.transform.localScale = new Vector3(1, 1, 1);
                         freeZone = true;
+                        }
+                        else
+                        {   
+                            currentObject.GetComponent<Renderer>().material = notBuildable;
+                            currentObject.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+                            freeZone = false;
+                        }
 
-                    }
-                    else
-                    {
-                        currentObject.GetComponent<Renderer>().material = notBuildable;
-                        currentObject.transform.position = new Vector3(Mathf.Round(hit.point.x), 0.1f, Mathf.Round(hit.point.z));
-                        freeZone = false;
                     }
 
 

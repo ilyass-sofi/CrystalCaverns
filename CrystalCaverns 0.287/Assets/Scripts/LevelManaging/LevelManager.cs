@@ -5,35 +5,41 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
+    [Header("Level Phase")]
+    public LevelPhase levelCurrentPhase;
+    [HideInInspector] public enum LevelPhase { Wave, Building };
+    private float buildingTime;
 
     public static LevelManager Instance { get; private set; }
+    [Header("Gameobjects References")]
     [SerializeField] private GameObject spawners;
     private GameObject[] shops;
-    [SerializeField] private GameObject shopPanel;
-    [SerializeField] private GameObject buildingPanel;
-    [SerializeField] private GameObject trapsPanel;
-    [SerializeField] private GameObject spellsPanel;
+
+  
     private Material openShopMat;
     private Material closedShopMat;
    
 
     private GameObject player; //Transform this into a list in multiplayer
+
+    [Header("UI References")]
+    [SerializeField] private GameObject shopPanel;
+    [SerializeField] private GameObject buildingPanel;
+    [SerializeField] private GameObject trapsPanel;
+    [SerializeField] private GameObject spellsPanel;
     [SerializeField] private Text waveCountText;
     [SerializeField] private Text enemiesAliveText;
     [SerializeField] private Text enemiesAliveCount;
     [SerializeField] private Text timerBuildingText;
     [SerializeField] private GameObject hintText;
     [SerializeField] private float buildingTimeBase;
-    private float buildingTime;
 
     private bool checking = false;
     private bool waveOver = false;
     private int waveCount = 1;
     private GameObject UIManager;
-    [HideInInspector] public enum LevelPhase { Wave, Building };
-    [HideInInspector] public LevelPhase levelCurrentPhase;
-  
-
+    private float timeRoad;
+    private float timeRoadCd = 3;
 
     private int enemiesAlive;
 
@@ -51,19 +57,32 @@ public class LevelManager : MonoBehaviour
     {
         Instance = this;
 
-    }
-
-    void Start()
-    {
-        levelCurrentPhase = LevelPhase.Wave;
-        buildingTime = buildingTimeBase;
-        spawners.GetComponent<Spawn>().Manager(waveCount);
-        //Loading up
+        //Loading up assets and references
         UIManager = GameObject.FindGameObjectWithTag("UIManager");
         shops = GameObject.FindGameObjectsWithTag("Shop");
         player = GameObject.FindGameObjectWithTag("Friendly");
         openShopMat = (Material)Resources.Load("Materials/GreenEmissive");
         closedShopMat = (Material)Resources.Load("Materials/RedEmissive");
+    }
+
+    void Start()
+    {
+        buildingTime = buildingTimeBase;
+        timeRoad = buildingTime;
+
+        if (levelCurrentPhase == LevelPhase.Building)
+        {
+            TogglePhase();
+            
+        }
+        else
+        {
+            spawners.GetComponent<Spawn>().Manager(waveCount);
+        }
+        //levelCurrentPhase = LevelPhase.Wave;
+
+        buildingTime = buildingTimeBase;
+        timeRoad = buildingTime;
     }
 
     public void SetBuildingPhase()
@@ -72,7 +91,7 @@ public class LevelManager : MonoBehaviour
         TogglePhase();
         timerBuildingText.gameObject.SetActive(true);
         timerBuildingText.text = (int)(buildingTime / 60) + ":" + (int)(buildingTime % 60);
-        //SetSpawnerState(false);
+        timeRoad = buildingTime;
     }
 
     private void Update()
@@ -84,7 +103,11 @@ public class LevelManager : MonoBehaviour
             buildingTime -= Time.deltaTime;
             timerBuildingText.text = System.String.Format("{0:00}:{1:00}", (int)(buildingTime / 60), (int)(buildingTime % 60));
 
-            
+            if (buildingTime <= timeRoad)
+            {
+                timeRoad -= timeRoadCd;
+                spawners.GetComponent<Spawn>().EnemiesRoad();
+            }
             
 
             if (Input.GetKeyDown(KeyCode.T))
@@ -102,7 +125,7 @@ public class LevelManager : MonoBehaviour
                 TogglePhase();
                 timerBuildingText.gameObject.SetActive(false);
                 buildingTime = buildingTimeBase;
-                //SetSpawnerState(true);
+                timeRoad = buildingTime;
                 spawners.GetComponent<Spawn>().Manager(waveCount);
                 ToggleCrosshair(true);
             }
