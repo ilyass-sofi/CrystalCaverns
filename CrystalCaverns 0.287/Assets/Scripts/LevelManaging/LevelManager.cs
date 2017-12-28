@@ -73,7 +73,6 @@ public class LevelManager : MonoBehaviour
         if (levelCurrentPhase == LevelPhase.Building)
         {
             TogglePhase();
-            
         }
         else
         {

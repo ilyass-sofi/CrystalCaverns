@@ -13,6 +13,9 @@ TagManager:
   - Shop
   - UIManager
   - WayToBase
+  - HealthBar
+  - GoldText
+  - SpellBar
   layers:
   - Default
   - TransparentFX

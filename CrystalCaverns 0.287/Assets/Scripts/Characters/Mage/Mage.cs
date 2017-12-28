@@ -3,110 +3,153 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Mage : Character 
+public abstract class Mage : Character 
 {
-    private ISpells spells;
-    private enum BarName { Mana, Health, Exp, Gold }
+    protected RaycastController rayCont;
+    protected Transform shootPoint;
 
-    private float manaMax = 100000;
-    private float mana;
-   
-    //private float level = 1;
-    //private float exp;
-    //private float expLvlUp = 100;
+    protected GameObject groundSprite;
+    protected GameObject zone;
 
-    //private float newLvlExp = 1.5f;//aumento de experiencia necesaria para subir un nivel
+    private enum BarName { Health, Gold }
 
     private int gold;
 
-    [SerializeField] private bool combat;
+    [Tooltip("No Cooldown")]
+    public bool godMode;
 
-    //[SerializeField] private Image expBar;
-    [SerializeField] private Image hpBar;
-    [SerializeField] private Image manaBar;
+    protected bool combat = true;
 
-    //[SerializeField] private Text lvlText;
-    //[SerializeField] private Text expText;
-    [SerializeField] private Text hpText;
-    [SerializeField] private Text manaText;
-    [SerializeField] private Text goldText;
+    #region HUD References
 
-    [SerializeField] private Image cdFirstSpellImg;
-    bool OnCdFirstSpell = false;
+    private Image hpBar;
+    private Text healthText;
+    private Text goldText;
+    private Image firstSpellImg;
+    private Image secondSpellImg;
+    private Image ultSpellImg;
 
-    [SerializeField] private Image cdSecondSpellImg;
-    bool OnCdSecondSpell = false;
+    #endregion
 
-    [SerializeField] private Image cdUltimateSpellImg;
-    bool OnCdUltimateSpell = false;
+    #region Spell Prefabs
 
-    void Awake()
+    [SerializeField] protected GameObject passivePrefab;
+    [SerializeField] protected GameObject basicAttackPrefab;
+    [SerializeField] protected GameObject firstSpellPrefab;
+    [SerializeField] protected GameObject secondSpellPrefab;
+    [SerializeField] protected GameObject ultimatePrefab;
+
+    #endregion
+
+    #region Cooldown
+
+    protected bool OnCdFirstSpell;
+    protected bool OnCdSecondSpell;
+    protected bool OnCdUltimateSpell;
+
+    [SerializeField] protected float basicCd;
+    [SerializeField] protected float firstSpellCd;
+    [SerializeField] protected float secondSpellCd;
+    [SerializeField] protected float ultimateCd;
+
+    protected float nextBasicCd;
+    protected float nextFirstSpellCd;
+    protected float nextSecondSpellCd;
+    protected float nextUltimateCd;
+
+    #endregion
+
+    public virtual void Awake()
     {
-        GetSpellsInterface();
+        GetHUDReferences();
     }
 
     void Start()
     {
+        rayCont = GetComponent<RaycastController>();
+        shootPoint = transform.GetChild(0).GetChild(0);
+
         HealthMax = 100;
         Health = HealthMax;
         Damage = 35;
         Gold = 5000;
-        Mana = manaMax;
     }
 
-    void Update()
+    public virtual void Update()
     {
-        #region UI Spell Cooldown Effect
+        SpellsCooldownEffect();
+    }
 
-        if (Time.time < getNextFirstCd())
+    private void SpellsCooldownEffect()
+    {   
+
+        if (Time.time < nextFirstSpellCd)
         {
             if (OnCdFirstSpell)
             {
                 OnCdFirstSpell = false;
-                cdFirstSpellImg.fillAmount = 0;
+                firstSpellImg.fillAmount = 0;
             }
-            cdFirstSpellImg.fillAmount += 1.0f / getFirstCd() * Time.deltaTime;
-            cdFirstSpellImg.color = Color.Lerp(Color.white, Color.black, Mathf.PingPong(Time.time, 1));
+            firstSpellImg.fillAmount += 1.0f / firstSpellCd * Time.deltaTime;
+            firstSpellImg.color = Color.Lerp(Color.white, Color.black, Mathf.PingPong(Time.time, 1));
         }
         else
         {
             OnCdFirstSpell = true;
-            cdFirstSpellImg.color = Color.white;
+            firstSpellImg.color = Color.white;
         }
 
-        if (Time.time < getNextSecondCd())
+        if (Time.time < nextSecondSpellCd)
         {
             if (OnCdSecondSpell)
             {
                 OnCdSecondSpell = false;
-                cdSecondSpellImg.fillAmount = 0;
+                secondSpellImg.fillAmount = 0;
             }
-            cdSecondSpellImg.fillAmount += 1.0f / getSecondCd() * Time.deltaTime;
-            cdSecondSpellImg.color = Color.Lerp(Color.white, Color.black, Mathf.PingPong(Time.time, 1));
+            secondSpellImg.fillAmount += 1.0f / secondSpellCd * Time.deltaTime;
+            secondSpellImg.color = Color.Lerp(Color.white, Color.black, Mathf.PingPong(Time.time, 1));
         }
         else
         {
             OnCdSecondSpell = true;
-            cdSecondSpellImg.color = Color.white;
+            secondSpellImg.color = Color.white;
         }
 
-        if (Time.time < getNextUltimateCd())
+        if (Time.time < nextUltimateCd)
         {
             if (OnCdUltimateSpell)
             {
                 OnCdUltimateSpell = false;
-                cdUltimateSpellImg.fillAmount = 0;
+                ultSpellImg.fillAmount = 0;
             }
-            cdUltimateSpellImg.fillAmount += 1.0f / getUltimateCd() * Time.deltaTime;
-            cdUltimateSpellImg.color = Color.Lerp(Color.white, Color.black, Mathf.PingPong(Time.time, 1));
+            ultSpellImg.fillAmount += 1.0f / ultimateCd * Time.deltaTime;
+            ultSpellImg.color = Color.Lerp(Color.white, Color.black, Mathf.PingPong(Time.time, 1));
         }
         else
         {
             OnCdUltimateSpell = true;
-            cdUltimateSpellImg.color = Color.white;
+            ultSpellImg.color = Color.white;
         }
-        #endregion
+    }
 
+    /// <summary>
+    /// Gets all the references of the HUD (health text, spell images ...)
+    /// </summary>
+    private void GetHUDReferences()
+    {
+        // Get HealthBarPanel
+        Transform hpBarPanel = GameObject.FindGameObjectWithTag("HealthBar").transform;
+        // Get HealthBar and HealthText
+        hpBar = hpBarPanel.Find("HealthBar").GetComponent<Image>();
+        healthText = hpBarPanel.Find("HealthText").GetComponent<Text>();
+        // Get GoldText
+        goldText = GameObject.FindGameObjectWithTag("GoldText").GetComponent<Text>();
+        // Get SpellBar
+        Transform spellBar = GameObject.FindGameObjectWithTag("SpellBar").transform;
+        // Get spells images from spellbar
+        firstSpellImg = spellBar.Find("FirstAbility").GetComponent<Image>();
+        secondSpellImg = spellBar.Find("SecondAbility").GetComponent<Image>();
+        ultSpellImg = spellBar.Find("Ultimate").GetComponent<Image>();
     }
 
     public bool Combat
@@ -114,44 +157,6 @@ public class Mage : Character
         get { return combat; }
         set { combat = value; }
     }
-
-    ///// <summary>
-    ///// Get: Returns current experience points
-    ///// Set: Add the provided value to the current experience, if it's above or equal to the limit then call level up
-    ///// </summary>
-    //public float Experience
-    //{
-    //    get { return exp; }
-    //    set
-    //    {
-    //        exp += value;
-    //        if (exp >= expLvlUp)
-    //        {
-    //            exp -= expLvlUp;
-    //            LvlUp();
-    //        }
-    //        Visual(BarName.Exp);
-    //    }
-    //}
-
-    /// <summary>
-    /// get: devuelve el valor del mana actual
-    /// </summary>
-    public float Mana
-    {
-        get { return mana; }
-        set
-        {
-            if (mana + value > manaMax) mana = manaMax;
-            else if (mana + value <= manaMax && mana + value >= 0) mana += value;
-            Visual(BarName.Mana);
-        }
-    }
-
-    //public float Level
-    //{
-    //    get { return level; }
-    //}
 
     /// <summary>
     /// Player's gold
@@ -165,14 +170,6 @@ public class Mage : Character
             Visual(BarName.Gold);
         }
     }
-
-    //private void LvlUp()
-    //{
-    //    expLvlUp *= 1.3f;
-    //    level++;
-    //    lvlText.text = level.ToString();
-    //    LvlUpBoost();
-    //}
 
     protected override void SetSpeed(float speedValue)
     {
@@ -193,18 +190,6 @@ public class Mage : Character
         UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
        
     }
-    ///// <summary>
-    ///// acciones que ocurren al subir de nivel
-    ///// </summary>
-    //private void LvlUpBoost()
-    //{
-    //    HealthMax *= 1.3f;
-    //    manaMax *= 1.3f;
-    //    Damage *= 1.3f;
-    //    Health = HealthMax;
-    //    mana = manaMax;
-    //    //funcion que resetea todos los cds
-    //}
 
     /// <summary>
     /// El nobre que se pasa es el nombre de la barra que se quiere cambiar
@@ -214,92 +199,22 @@ public class Mage : Character
     {
         switch (name)
         {
-            //case BarName.Exp:
-            //    expBar.transform.localScale = new Vector3(exp / expLvlUp, 0.1f, 1);
-            //    expText.text = (int)exp + "/" + expLvlUp;
-            //    break;
-
+           
             case BarName.Health:
-                hpBar.transform.localScale = new Vector3(Health / HealthMax, 0.1f, 1);
-                hpText.text = (int)Health + "/" + HealthMax;
+                hpBar.fillAmount = Health / HealthMax;
+                healthText.text = (int)Health + "/" + HealthMax;
                 break;
 
-            case BarName.Mana:
-                manaBar.transform.localScale = new Vector3(mana / manaMax, 0.1f, 1);
-                manaText.text = (int)mana + "/" + manaMax;
-                break;
+           
             case BarName.Gold:
                 goldText.text = gold.ToString();
                 break;
         };
     }
 
-    #region Spells Interface
+    public abstract void BasicAttack();
+    public abstract void FirstSpell();
+    public abstract void SecondSpell();
+    public abstract void Ultimate();
 
-    /// <summary>
-    /// Get the spell interface script
-    /// </summary>
-    public void GetSpellsInterface()
-    {
-        spells = GetComponent<ISpells>();
-    }
-    
-
-    public void BasicAttack()
-    {
-        if (combat)
-            spells.BasicAttack();
-    }
-
-
-    public void FirstSpell()
-    {
-        if (combat)
-            spells.FirstSpell();
-    }
-
-    public void SecondSpell()
-    {
-        if (combat)
-            spells.SecondSpell();
-    }
-
-    public void Ultimate()
-    {
-        if (combat)
-            spells.Ultimate();
-    }
-
-    public float getFirstCd()
-    {
-        return spells.getFirstCd();
-    }
-
-    public float getNextFirstCd()
-    {
-        return spells.getNextFirstCd();
-    }
-
-    public float getSecondCd()
-    {
-        return spells.getSecondCd();
-    }
-
-    public float getNextSecondCd()
-    {
-        return spells.getNextSecondCd();
-    }
-
-    public float getUltimateCd()
-    {
-        return spells.getUltimateCd();
-    }
-
-    public float getNextUltimateCd()
-    {
-        return spells.getNextUltimateCd();
-    }
-
-
-    #endregion
 }

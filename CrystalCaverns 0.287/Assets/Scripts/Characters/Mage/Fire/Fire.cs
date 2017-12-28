@@ -26,7 +26,6 @@ public class Fire : MonoBehaviour, ISpells
     private float firstCd = 6;
     private float nextFirstCd = 0;
     private float explosionSpeed = 1500;
-    private float firstManaCost = 20;
     [SerializeField] private float firstDmgMultiplier = 170.0f / 100.0f;
 
     //E - Fire Spiral
@@ -53,9 +52,7 @@ public class Fire : MonoBehaviour, ISpells
     private float ultimateManaCost = 50;
     [SerializeField] private float ultDmgMultiplier = 230.0f / 100.0f;
 
-    [Tooltip("No Cooldown")]
-    [SerializeField]
-    private bool godMode = true;
+    
 
     private void Start()
     {
@@ -96,7 +93,7 @@ public class Fire : MonoBehaviour, ISpells
 
                         if (Input.GetMouseButtonDown(0))
                         {
-                            mage.Mana = -secondManaCost;
+                            
                             nextSecondCd = Time.time + secondCd;
                             fireSpiralPlacement = false;
                             GameObject fireSpiral = Instantiate(secondSpellPrefab, hit.point, cam.transform.parent.transform.rotation);
@@ -132,20 +129,20 @@ public class Fire : MonoBehaviour, ISpells
     /// </summary>
     public void BasicAttack()
     {
-        //Check if cd is off
-        if ((Time.time >= nextAutoCd || godMode) && !fireSpiralPlacement)
-        {
-            //Spawn the prefab
-            GameObject ball = Instantiate(basicAttackPrefab, shootPoint.position, shootPoint.rotation);
-            //Make it look at the target
-            ball.transform.LookAt(rayCont.NormalTarget);
-            //Set the basic damage
-            ball.GetComponent<FireBall>().Damage = mage.Damage;
-            //Impulse the projectile to the target
-            ball.GetComponent<Rigidbody>().AddForce(ball.transform.forward * basicProjectileSpeed);
-            //Add Cd
-            nextAutoCd = Time.time + autoCd;
-        }
+        ////Check if cd is off
+        //if ((Time.time >= nextAutoCd || godMode) && !fireSpiralPlacement)
+        //{
+        //    //Spawn the prefab
+        //    GameObject ball = Instantiate(basicAttackPrefab, shootPoint.position, shootPoint.rotation);
+        //    //Make it look at the target
+        //    ball.transform.LookAt(rayCont.NormalTarget);
+        //    //Set the basic damage
+        //    ball.GetComponent<FireBall>().Damage = mage.Damage;
+        //    //Impulse the projectile to the target
+        //    ball.GetComponent<Rigidbody>().AddForce(ball.transform.forward * basicProjectileSpeed);
+        //    //Add Cd
+        //    nextAutoCd = Time.time + autoCd;
+        //}
     }
 
     /// <summary>
@@ -153,22 +150,21 @@ public class Fire : MonoBehaviour, ISpells
     /// </summary>
     public void FirstSpell()
     {
-        //Check if cd is off and if mana is available, also if level has been atained
-        if ((Time.time >= nextFirstCd || godMode) && mage.Mana >= firstManaCost )
-        {
-            //We first remove the mana
-            mage.Mana = -firstManaCost;
-            //Spawn the prefab
-            GameObject explosion = Instantiate(firstSpellPrefab, shootPoint.position, shootPoint.rotation);
-            //Make it look at the target
-            explosion.transform.LookAt(rayCont.NormalTarget);
-            //Set the damage multiplied
-            explosion.GetComponent<Explosion>().Damage = mage.Damage * firstDmgMultiplier;
-            //Impulse the projectile to the target
-            explosion.GetComponent<Rigidbody>().AddForce(explosion.transform.forward * explosionSpeed);
-            //Add Cd
-            nextFirstCd = Time.time + firstCd;
-        }
+        ////Check if cd is off and if mana is available, also if level has been atained
+        //if (Time.time >= nextFirstCd || godMode)
+        //{
+            
+        //    //Spawn the prefab
+        //    GameObject explosion = Instantiate(firstSpellPrefab, shootPoint.position, shootPoint.rotation);
+        //    //Make it look at the target
+        //    explosion.transform.LookAt(rayCont.NormalTarget);
+        //    //Set the damage multiplied
+        //    explosion.GetComponent<Explosion>().Damage = mage.Damage * firstDmgMultiplier;
+        //    //Impulse the projectile to the target
+        //    explosion.GetComponent<Rigidbody>().AddForce(explosion.transform.forward * explosionSpeed);
+        //    //Add Cd
+        //    nextFirstCd = Time.time + firstCd;
+        //}
     }
 
     /// <summary>
@@ -176,14 +172,14 @@ public class Fire : MonoBehaviour, ISpells
     /// </summary>
     public void SecondSpell()
     {
-        if ((Time.time >= nextSecondCd || godMode) && mage.Mana >= secondManaCost)
-        {
+        //if (Time.time >= nextSecondCd || godMode)
+        //{
 
-            fireSpiralPlacement = true;
-            if (zone) Destroy(zone);
-            zone = Instantiate(groundSprite, transform.position + Vector3.down * 10, Quaternion.identity);
+        //    fireSpiralPlacement = true;
+        //    if (zone) Destroy(zone);
+        //    zone = Instantiate(groundSprite, transform.position + Vector3.down * 10, Quaternion.identity);
 
-        }
+        //}
     }
 
     /// <summary>
@@ -191,14 +187,14 @@ public class Fire : MonoBehaviour, ISpells
     /// </summary>
     public void Ultimate()
     {
-        if ((Time.time >= nextUltimateCd || godMode)  && mage.Mana >= ultimateManaCost)
-        {
-            mage.Mana = -ultimateManaCost;
-            GameObject ult = Instantiate(ultimatePrefab, shootPoint.position + new Vector3(0, 0.5f, 0), cam.transform.parent.transform.rotation);
-            ult.GetComponent<FireWave>().Damage = mage.Damage * ultDmgMultiplier;
-            ult.transform.rotation *= Quaternion.Euler(0, 180f, 0);
-            nextUltimateCd = Time.time + ultimateCd;
-        }
+        //if (Time.time >= nextUltimateCd || godMode)
+        //{
+            
+        //    GameObject ult = Instantiate(ultimatePrefab, shootPoint.position + new Vector3(0, 0.5f, 0), cam.transform.parent.transform.rotation);
+        //    ult.GetComponent<FireWave>().Damage = mage.Damage * ultDmgMultiplier;
+        //    ult.transform.rotation *= Quaternion.Euler(0, 180f, 0);
+        //    nextUltimateCd = Time.time + ultimateCd;
+        //}
     }
 
     #region Spell Cooldown Getters
