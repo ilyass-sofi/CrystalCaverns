@@ -88,14 +88,14 @@ public abstract class Character : MonoBehaviour
             {
                 health = 0;
                 isDead = true;
-                dead();
+                GameOver();
             }
         }
     }
 
     protected abstract void SetSpeed(float speedValue);
 
-    protected abstract void dead();
+    protected abstract void GameOver();
     
     #endregion
 

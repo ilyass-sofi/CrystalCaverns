@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b826985634e1f8f43b6b02e952f6c409, type: 3}
+  m_Name: EarthMage
+  m_EditorClassIdentifier: 
+  mageName: Earth
+  baseHealth: 150
+  baseDamage: 25
+  path: Earth
+  splashArt: {fileID: 21300000, guid: 8605cd774519eae4fb3b78d35aa7a2cf, type: 3}
+  passiveSpell: {fileID: 11400000, guid: 54774db30fdd1b94fbff15e0f694f7e9, type: 2}
+  basicAttack: {fileID: 11400000, guid: 692bf5225332d5246b7d4902ef39de81, type: 2}
+  firstSpell: {fileID: 11400000, guid: 9e4796095086f4c42a1d8e25a3688648, type: 2}
+  secondSpell: {fileID: 11400000, guid: 96406bc55977a7e41998750420d4c071, type: 2}
+  ultimate: {fileID: 11400000, guid: 8625ed105fefe4b4cbd06654a7646778, type: 2}

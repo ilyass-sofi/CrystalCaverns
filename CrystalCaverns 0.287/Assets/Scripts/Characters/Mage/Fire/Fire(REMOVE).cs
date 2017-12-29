@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fire : MonoBehaviour, ISpells
+public class Fire : MonoBehaviour
 {
  
     private Mage mage;

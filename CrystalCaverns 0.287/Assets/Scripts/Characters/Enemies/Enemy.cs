@@ -61,7 +61,7 @@ public abstract class Enemy : Character
         shop = _shop;
     }
 
-    protected override void dead()
+    protected override void GameOver()
     {
        
         Loot();

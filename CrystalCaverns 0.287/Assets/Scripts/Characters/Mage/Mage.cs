@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class Mage : Character 
-{
+{   
+    [SerializeField] protected MageAsset mageAsset;
+
     protected RaycastController rayCont;
     protected Transform shootPoint;
 
@@ -33,11 +35,11 @@ public abstract class Mage : Character
 
     #region Spell Prefabs
 
-    [SerializeField] protected GameObject passivePrefab;
-    [SerializeField] protected GameObject basicAttackPrefab;
-    [SerializeField] protected GameObject firstSpellPrefab;
-    [SerializeField] protected GameObject secondSpellPrefab;
-    [SerializeField] protected GameObject ultimatePrefab;
+    protected GameObject passivePrefab;
+    protected GameObject basicAttackPrefab;
+    protected GameObject firstSpellPrefab;
+    protected GameObject secondSpellPrefab;
+    protected GameObject ultimatePrefab;
 
     #endregion
 
@@ -47,10 +49,10 @@ public abstract class Mage : Character
     protected bool OnCdSecondSpell;
     protected bool OnCdUltimateSpell;
 
-    [SerializeField] protected float basicCd;
-    [SerializeField] protected float firstSpellCd;
-    [SerializeField] protected float secondSpellCd;
-    [SerializeField] protected float ultimateCd;
+    protected float basicCd;
+    protected float firstSpellCd;
+    protected float secondSpellCd;
+    protected float ultimateCd;
 
     protected float nextBasicCd;
     protected float nextFirstSpellCd;
@@ -59,20 +61,30 @@ public abstract class Mage : Character
 
     #endregion
 
-    public virtual void Awake()
-    {
+    public void SetMageAsset(MageAsset _mageAsset = null)
+    {   
+        if(_mageAsset != null)
+        mageAsset = _mageAsset;
+
         GetHUDReferences();
+        LoadPrefabSpells();
+        SetBaseAttributes();
+        // Fix images before doing this
+        // SetHUD();
     }
 
-    void Start()
+    public virtual void Awake()
     {
+        MageAsset mageSelect = GameObject.Find("MenuManager").GetComponent<PassThroughScene>().SelectedMage;
+        if (mageSelect != null) SetMageAsset(mageSelect);
+        else SetMageAsset();
+
+
         rayCont = GetComponent<RaycastController>();
         shootPoint = transform.GetChild(0).GetChild(0);
 
-        HealthMax = 100;
-        Health = HealthMax;
-        Damage = 35;
         Gold = 5000;
+        
     }
 
     public virtual void Update()
@@ -152,6 +164,47 @@ public abstract class Mage : Character
         ultSpellImg = spellBar.Find("Ultimate").GetComponent<Image>();
     }
 
+    /// <summary>
+    /// Loads all the spell prefabs
+    /// </summary>
+    private void LoadPrefabSpells()
+    {
+        string path = "Spells/" + mageAsset.path + "/";
+        passivePrefab = Resources.Load(path + mageAsset.passiveSpell.path) as GameObject;
+        basicAttackPrefab = Resources.Load(path + mageAsset.basicAttack.path) as GameObject;
+        firstSpellPrefab = Resources.Load(path + mageAsset.firstSpell.path) as GameObject;
+        secondSpellPrefab = Resources.Load(path + mageAsset.secondSpell.path) as GameObject;
+        ultimatePrefab = Resources.Load(path + mageAsset.ultimate.path) as GameObject;
+    }
+
+    /// <summary>
+    /// Sets up all the HUD (sprites)
+    /// </summary>
+    private void SetHUD()
+    {
+        
+        firstSpellImg.sprite = mageAsset.firstSpell.sprite;
+        secondSpellImg.sprite = mageAsset.secondSpell.sprite;
+        ultSpellImg.sprite = mageAsset.ultimate.sprite;
+    }
+
+    /// <summary>
+    /// Loading atributes for the mage asset
+    /// </summary>
+    private void SetBaseAttributes()
+    {
+        //Stats
+        HealthMax = mageAsset.baseHealth;
+        Health = HealthMax;//this should be done on character
+        Damage = mageAsset.baseDamage;
+
+        //basicCd = mageAsset.passiveSpell.cooldown;
+        basicCd = mageAsset.basicAttack.cooldown;
+        firstSpellCd = mageAsset.firstSpell.cooldown;
+        secondSpellCd = mageAsset.secondSpell.cooldown;
+        ultimateCd = mageAsset.ultimate.cooldown;
+    }
+
     public bool Combat
     {
         get { return combat; }
@@ -182,7 +235,7 @@ public abstract class Mage : Character
         Visual(BarName.Health);
     }
 
-    protected override void dead()
+    protected override void GameOver()
     {
         //pantalla Game Over
         Cursor.visible = true;
