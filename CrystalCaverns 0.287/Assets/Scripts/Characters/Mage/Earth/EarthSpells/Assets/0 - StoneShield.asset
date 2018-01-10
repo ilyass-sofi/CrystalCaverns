@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cfbceb227189474ca62b73a6ef06c0a, type: 3}
+  m_Name: 0 - StoneShield
+  m_EditorClassIdentifier: 
+  spellName: Escudo de piedra (Pasiva)
+  description: "Obtiene un escudo extra de 100 de vida el cual al ser destruido tarda
+    120 segundos en regenerarse.\r\n"
+  sprite: {fileID: 21300000, guid: 8605cd774519eae4fb3b78d35aa7a2cf, type: 3}
+  path: 
+  cooldown: 0

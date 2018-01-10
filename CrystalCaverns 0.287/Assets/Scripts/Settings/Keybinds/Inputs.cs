@@ -7,15 +7,19 @@ public class Inputs : MonoBehaviour
 
     private Dictionary<string, KeyCode> keys;
 
-    [SerializeField] private Mage mage;
-    [SerializeField] private Builder builder;
-    [SerializeField] private UI ui;
+    private Mage mage;
+    private Builder builder;
+    private UI ui;
 
     public static bool isInputEnabled = true;
 
     void Awake()
     {
         keys = GetComponent<InputManager>().getKeys();
+        ui = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UI>();
+        GameObject player = GameObject.FindGameObjectWithTag("Friendly");
+        mage = player.GetComponent<Mage>();
+        builder = player.GetComponent<Builder>();
     }
 
     void Update()

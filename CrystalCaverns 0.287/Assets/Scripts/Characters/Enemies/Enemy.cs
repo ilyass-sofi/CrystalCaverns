@@ -29,10 +29,6 @@ public abstract class Enemy : Character
         defaultTarget = true;
     }
 
-    void Update()
-    {
-    }
-
     protected override void SetSpeed(float speedValue)
     {
         currentSpeed = speedValue;

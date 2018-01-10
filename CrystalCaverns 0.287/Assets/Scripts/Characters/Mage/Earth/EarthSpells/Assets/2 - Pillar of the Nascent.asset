@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cfbceb227189474ca62b73a6ef06c0a, type: 3}
+  m_Name: 2 - Pillar of the Nascent
+  m_EditorClassIdentifier: 
+  spellName: 'Pilar de naciente '
+  description: "Crea un p\xEClar rocoso en un radio de 6 unidades que causa da\xF1o,
+    ralentiza y divide unidades.\r\n50 Puntos de da\xF1o.\r\nOcupa 2 x 2 unidades.\r\nRalentiza
+    un 60%  en un radio de 4 unidades.\r\nDivided las unidades hacia los lados al
+    crearse el pilar.\r\nDuraci\xF3n del pilar 3.5s\r\n6 segundos de CD.\r\nPuede
+    recoger los pilares para sumar una roca punzante. ( debe estar a 2 unidades y
+    clicar sobre esta)\r\n"
+  sprite: {fileID: 21300000, guid: 8605cd774519eae4fb3b78d35aa7a2cf, type: 3}
+  path: 
+  cooldown: 6

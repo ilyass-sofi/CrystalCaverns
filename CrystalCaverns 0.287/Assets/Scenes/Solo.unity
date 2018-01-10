@@ -124,7 +124,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &11731213
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4647,7 +4647,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &505117233
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4664,10 +4664,10 @@ RectTransform:
   m_Father: {fileID: 11731213}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.66875, y: 0.12900001}
+  m_AnchorMin: {x: 0.66875, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -0.000030518}
+  m_AnchoredPosition: {x: 0, y: 0.15099907}
+  m_SizeDelta: {x: 0, y: -0.3030014}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &505117234
 MonoBehaviour:
@@ -8855,9 +8855,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5201d4163e1c40f48af632920f4990b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mage: {fileID: 1297235991}
-  builder: {fileID: 469701574}
-  ui: {fileID: 2120668841}
 --- !u!114 &1059754144 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114491426077742604, guid: 8c8da0bc39d1c2b4388c63f54c4d2345,
@@ -9709,8 +9706,8 @@ GameObject:
   - component: {fileID: 1297235986}
   - component: {fileID: 1297235985}
   - component: {fileID: 1297235989}
-  - component: {fileID: 1297235991}
   - component: {fileID: 469701574}
+  - component: {fileID: 1297235988}
   m_Layer: 11
   m_Name: CharacterSolo
   m_TagString: Friendly
@@ -9838,6 +9835,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &1297235988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1297235984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03cf1012d84adde4eba1f03a196176c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mageAsset: {fileID: 11400000, guid: 17b85ee8568b6ad4994e512533012c46, type: 2}
+  godMode: 0
 --- !u!114 &1297235989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9868,19 +9878,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1297235991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1297235984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03cf1012d84adde4eba1f03a196176c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mageAsset: {fileID: 11400000, guid: 17b85ee8568b6ad4994e512533012c46, type: 2}
-  godMode: 0
 --- !u!1 &1298184295
 GameObject:
   m_ObjectHideFlags: 0

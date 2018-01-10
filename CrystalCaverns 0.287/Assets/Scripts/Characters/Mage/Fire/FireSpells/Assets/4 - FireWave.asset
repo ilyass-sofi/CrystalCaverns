@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cfbceb227189474ca62b73a6ef06c0a, type: 3}
+  m_Name: 4 - FireWave
+  m_EditorClassIdentifier: 
+  spellName: Mar de llamas (R - 20s CD)
+  description: "Desata un una gran ola de fuego hacia delante inflijiendo 80 puntos
+    de da\xF1o\r.\nSi los objetivos est\xE1n quemados, el da\xF1o se duplica."
+  sprite: {fileID: 21300000, guid: be8fdecc6253df64cb69964d0a321311, type: 3}
+  path: FireWave
+  cooldown: 20

@@ -61,21 +61,12 @@ public abstract class Mage : Character
 
     #endregion
 
-    public void SetMageAsset(MageAsset _mageAsset = null)
-    {   
-        if(_mageAsset != null)
-        mageAsset = _mageAsset;
-
-        GetHUDReferences();
-        LoadPrefabSpells();
-        SetBaseAttributes();
-        // Fix images before doing this
-        // SetHUD();
-    }
 
     public virtual void Awake()
     {
         MageAsset mageSelect = GameObject.Find("MenuManager").GetComponent<PassThroughScene>().SelectedMage;
+
+
         if (mageSelect != null) SetMageAsset(mageSelect);
         else SetMageAsset();
 
@@ -90,6 +81,18 @@ public abstract class Mage : Character
     public virtual void Update()
     {
         SpellsCooldownEffect();
+    }
+
+    public void SetMageAsset(MageAsset _mageAsset = null)
+    {   
+        if(_mageAsset != null)
+        mageAsset = _mageAsset;
+
+        GetHUDReferences();
+        LoadPrefabSpells();
+        SetBaseAttributes();
+        // Fix images before doing this
+        // SetHUD();
     }
 
     private void SpellsCooldownEffect()
@@ -182,7 +185,6 @@ public abstract class Mage : Character
     /// </summary>
     private void SetHUD()
     {
-        
         firstSpellImg.sprite = mageAsset.firstSpell.sprite;
         secondSpellImg.sprite = mageAsset.secondSpell.sprite;
         ultSpellImg.sprite = mageAsset.ultimate.sprite;

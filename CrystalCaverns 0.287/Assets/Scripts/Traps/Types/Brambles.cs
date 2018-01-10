@@ -42,18 +42,6 @@ public class Brambles : MonoBehaviour
         set { secondsSD = value; }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-
-    void Awake()
-    {
-        //Here will catch the sound component and all the components we need 
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
 
     void Start()
     {
@@ -62,26 +50,12 @@ public class Brambles : MonoBehaviour
         //Here will be the sound that it make this trap
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-
-    void Update()
-    {
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
 
     void OnTriggerEnter(Collider other)  // Invoke "SlowDown(Collider enemy)"
     {
         SlowDown(other);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
 
     void OnTriggerExit(Collider other)  // Invoke "SlowDown(Collider enemy)"
     {
@@ -113,8 +87,5 @@ public class Brambles : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// The trap lose life per a number of frames (would be better in seconds)
-    /// </summary>
     
 }
