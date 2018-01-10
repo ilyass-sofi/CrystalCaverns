@@ -4666,7 +4666,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.66875, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.15099907}
+  m_AnchoredPosition: {x: 0, y: 0.15100098}
   m_SizeDelta: {x: 0, y: -0.3030014}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &505117234
@@ -9843,10 +9843,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1297235984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03cf1012d84adde4eba1f03a196176c1, type: 3}
+  m_Script: {fileID: 11500000, guid: df646a6afd5672f4fba009c3ac2bebba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mageAsset: {fileID: 11400000, guid: 17b85ee8568b6ad4994e512533012c46, type: 2}
+  mageAsset: {fileID: 11400000, guid: 10420811268d0a24fbcc05bf25512f19, type: 2}
   godMode: 0
 --- !u!114 &1297235989
 MonoBehaviour:
