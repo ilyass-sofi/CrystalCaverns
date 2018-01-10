@@ -4666,7 +4666,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.66875, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.15099907}
+  m_AnchoredPosition: {x: 0, y: 0.15100098}
   m_SizeDelta: {x: 0, y: -0.3030014}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &505117234
@@ -6110,7 +6110,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 670571782}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.341318, y: -1.7400024, z: 7.9027815}
+  m_LocalPosition: {x: -29.3, y: -1.7400024, z: 7.9027815}
   m_LocalScale: {x: 1, y: 4.390934, z: 1}
   m_Children: []
   m_Father: {fileID: 1381747188}
