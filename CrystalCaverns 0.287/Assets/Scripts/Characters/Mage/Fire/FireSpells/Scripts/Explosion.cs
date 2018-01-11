@@ -31,7 +31,7 @@ public class Explosion : MonoBehaviour
             Character enemy = colObj.GetComponent<Character>();
             enemy.Health = -damage;
             GameObject explosionEffect = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            explosionEffect.GetComponent<ExplosionEffect>().Damage = damage * explosionEffectDmgMultiplier;
+            explosionEffect.GetComponent<ExplosionEffectFire>().Damage = damage * explosionEffectDmgMultiplier;
 
         }
 

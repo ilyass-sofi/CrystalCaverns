@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4496663240816292}
   m_Layer: 0
-  m_Name: Zone
+  m_Name: ZoneFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

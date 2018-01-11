@@ -9,7 +9,6 @@ public abstract class Mage : Character
 
     protected RaycastController rayCont;
     protected Transform shootPoint;
-
     protected GameObject groundSprite;
     protected GameObject zone;
 
@@ -21,6 +20,8 @@ public abstract class Mage : Character
     public bool godMode;
 
     protected bool combat = true;
+    protected bool zonePlacementFlag;
+
 
     #region HUD References
 
@@ -272,4 +273,72 @@ public abstract class Mage : Character
     public abstract void SecondSpell();
     public abstract void Ultimate();
 
+    // Zone Casting
+
+    protected void ZonePlacement(ref float nextCd, ref float baseCd, ref bool flag, float range, float damageMultiplier, GameObject prefab)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        //Send a raycast to the cam direction ignoring the object that you are building within a specified range
+        if (Physics.Raycast(ray, out hit, 60, 9))
+        {
+
+            if (hit.transform.gameObject.CompareTag("Ground"))
+            {
+                zone.SetActive(true);
+                //Place the zone
+                zone.transform.position = hit.point;
+                //Get his image for recoloring purposes
+                GameObject zoneImage = zone.transform.GetChild(0).gameObject;
+
+                //If the distance is under the range then paint it correctly
+                if (Vector3.Distance(transform.position, hit.point) < range)
+                {
+                    zoneImage.GetComponent<SpriteRenderer>().color = Color.white;
+
+                    if (Input.GetMouseButtonDown(0))
+                    {
+
+                        nextCd = Time.time + baseCd;
+                        flag = false;
+                        zonePlacementFlag = false;
+                        GameObject spell = Instantiate(prefab, hit.point, prefab.transform.rotation);
+                        spell.GetComponent<Spell>().Damage = Damage * damageMultiplier;
+                        Destroy(zone);
+
+                    }
+                }
+                //If not then paint as another color
+                else zoneImage.GetComponent<SpriteRenderer>().color = Color.black;
+
+                if (Input.GetMouseButtonDown(1))
+                {
+                    ClearPlacementZone(ref flag);
+                }
+
+            }
+            else zone.SetActive(false);
+        }
+        else zone.SetActive(false);
+    }
+
+    protected void ClearPlacementZone(ref bool flag)
+    {
+        Destroy(zone);
+        flag = false;
+        zonePlacementFlag = false;
+    }
+
+    protected void ClearPlacementZone(ref bool[] flag)
+    {
+        Destroy(zone);
+
+        for (int i = 0; i < flag.Length; i++)
+        {
+            flag[i] = false;
+        }
+
+        zonePlacementFlag = false;
+    }
 }

@@ -23,9 +23,9 @@ GameObject:
   - component: {fileID: 199866977494905750}
   - component: {fileID: 135873710225934846}
   - component: {fileID: 108040094521710176}
-  - component: {fileID: 114407477117395244}
+  - component: {fileID: 114208919657036124}
   m_Layer: 10
-  m_Name: ExplosionParticle
+  m_Name: ExplosionParticleEarth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1150329652767972}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 4.3076324, y: 0.31, z: 5.857067}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -53,7 +53,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
-  m_Color: {r: 1, g: 0.22758621, b: 0, a: 1}
+  m_Color: {r: 0.23137257, g: 0.16078432, b: 0.09411766, a: 1}
   m_Intensity: 5
   m_Range: 15
   m_SpotAngle: 30
@@ -80,7 +80,7 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114407477117395244
+--- !u!114 &114208919657036124
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -88,10 +88,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1150329652767972}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79156de88b19d3640bd2ad7007463977, type: 3}
+  m_Script: {fileID: 11500000, guid: 93024d430a146544888448b0e02fc134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  burnPrefab: {fileID: 1385106022807684, guid: 2a941785d7147a94ca561234417a620c, type: 2}
+  timeDestroy: 0.5
+  slowPercentage: 20
 --- !u!135 &135873710225934846
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -102,7 +103,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198047590508207568
 ParticleSystem:
@@ -163,7 +164,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1774305830
+  randomSeed: 2004116248
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -1070,15 +1071,15 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0, b: 0, a: 1}
-        key1: {r: 1, g: 0, b: 0.06206894, a: 0.5019608}
-        key2: {r: 0.8602941, g: 0.84371644, b: 0.25935337, a: 0}
-        key3: {r: 0.8503997, g: 0.86764705, b: 0.5550389, a: 0}
+        key0: {r: 0.25735295, g: 0.16213757, b: 0.07569204, a: 1}
+        key1: {r: 0.25882354, g: 0.16078432, b: 0.07450981, a: 0.5019608}
+        key2: {r: 0.25, g: 0.24497974, b: 0.06801471, a: 0}
+        key3: {r: 0.5, g: 0.36323532, b: 0.15808824, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
-        ctime0: 0
+        ctime0: 193
         ctime1: 17540
         ctime2: 53777
         ctime3: 65535

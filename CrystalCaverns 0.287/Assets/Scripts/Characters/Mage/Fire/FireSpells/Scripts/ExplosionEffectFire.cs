@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExplosionEffect : MonoBehaviour
+public class ExplosionEffectFire : MonoBehaviour
 {
 
     [SerializeField] private GameObject burnPrefab;
@@ -27,8 +27,7 @@ public class ExplosionEffect : MonoBehaviour
     {
         
         GameObject colObj = other.gameObject;
-        string colTag = colObj.tag;
-        if (colTag == "Enemy")
+        if (colObj.CompareTag("Enemy"))
         {   
             Character enemy = colObj.GetComponent<Character>();
             enemy.Health = -damage;

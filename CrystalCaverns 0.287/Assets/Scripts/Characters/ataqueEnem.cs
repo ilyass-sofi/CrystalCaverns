@@ -36,7 +36,7 @@ public class ataqueEnem : MonoBehaviour {
         if(playerInside && canAttack)
         {
             canAttack = false;
-            player.transform.GetComponent<Character>().Health = -damage;
+            player.GetComponent<Character>().Health = -damage;
             StartCoroutine(pega());
         }
     }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SharpRock : MonoBehaviour {
-
+public class SharpRock : MonoBehaviour
+{
 
     [SerializeField] private GameObject explosionPrefab;
     [SerializeField] private float timeDestroy = 5;
@@ -24,18 +24,17 @@ public class SharpRock : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         GameObject colObj = collision.gameObject;
-        string colTag = colObj.tag;
-        if (colTag == "Enemy")
+        if (colObj.CompareTag("Enemy"))
         {
             Character enemy = colObj.GetComponent<Character>();
             enemy.Health = -damage;
-            enemy.CurrentSpeed *= 0.8f;
-            //GameObject explosionEffect = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            //explosionEffect.GetComponent<ExplosionEffect>().Damage = damage * explosionEffectDmgMultiplier;
+            
+            GameObject explosionEffect = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            explosionEffect.GetComponent<ExplosionEffectEarth>().Damage = damage * explosionEffectDmgMultiplier;
 
         }
 
-        if (colTag != "Friendly")
+        if (!colObj.CompareTag("Friendly"))
         {
             Destroy(gameObject);
         }

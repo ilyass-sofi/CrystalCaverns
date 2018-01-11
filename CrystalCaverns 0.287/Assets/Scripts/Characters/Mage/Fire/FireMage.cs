@@ -26,7 +26,7 @@ public class FireMage : Mage
     public override void Awake()
     {
         base.Awake();
-        groundSprite = Resources.Load("Spells/Zone") as GameObject;
+        groundSprite = Resources.Load("Spells/ZoneFire") as GameObject;
     }
 
     public override void Update()
