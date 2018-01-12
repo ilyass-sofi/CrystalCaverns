@@ -6,6 +6,11 @@ public class EarthMage : Mage
 {
     #region Spell Data
 
+    // Passive - Shield
+    private float nextShieldCd;
+    private float shieldCd = 120;
+
+
     // Rock Circle 
     private RockCircle rockCircle;
     private float nextRockCd;
@@ -24,11 +29,17 @@ public class EarthMage : Mage
     private float quickSandRange = 10;
     private float quickSandDmgMultiplier = 60.0f / 100.0f;
 
+    // Ultimate - Earthquake
+    private float earthQuakeDmgMultiplier = 40.0f / 100.0f;
+
     #endregion
 
     public override void Awake()
     {
+        shield = true;
+        MaxShieldValue = 100;
         base.Awake();
+        ShieldValue = 35;
         rockCircle = Instantiate(Resources.Load("Spells/Earth/RockCircle") as GameObject,transform).GetComponent<RockCircle>();
         groundSprite = Resources.Load("Spells/ZoneEarth") as GameObject;
     }
@@ -36,6 +47,15 @@ public class EarthMage : Mage
     public override void Update()
     {
         base.Update();
+
+
+        // Shield Regeneration
+        if (Time.time >= nextShieldCd)
+        {
+            nextShieldCd = Time.time + shieldCd;
+            ShieldValue = MaxShieldValue;
+        }
+
 
         // Rock Regeneration
         if (Time.time >= nextRockCd && rockCircle.getCurrentRockCount() < rockCircle.getBaseRockCount())
@@ -46,9 +66,12 @@ public class EarthMage : Mage
 
         if (combat && zonePlacementFlag)
         {
-            if(earthPilarPlacement) ZonePlacement(ref nextFirstSpellCd, ref firstSpellCd, ref earthPilarPlacement, pilarRange, pilarDmgMultiplier, firstSpellPrefab);
-
-            else if(quickSandPlacement) ZonePlacement(ref nextSecondSpellCd, ref secondSpellCd, ref quickSandPlacement, quickSandRange, quickSandDmgMultiplier, secondSpellPrefab);
+            if (earthPilarPlacement) if (ZonePlacement(ref nextFirstSpellCd, ref firstSpellCd, ref earthPilarPlacement, pilarRange, pilarDmgMultiplier, firstSpellPrefab))
+            {
+                rockCircle.AddRock();
+                rockCircle.AddRock();
+            }
+            else if (quickSandPlacement) ZonePlacement(ref nextSecondSpellCd, ref secondSpellCd, ref quickSandPlacement, quickSandRange, quickSandDmgMultiplier, secondSpellPrefab);
         }
         else if (zone)
         {
@@ -101,8 +124,14 @@ public class EarthMage : Mage
 
     public override void Ultimate()
     {
-        throw new System.NotImplementedException();
+        if (Time.time >= nextUltimateCd || godMode)
+        {
+            nextUltimateCd = Time.time + ultimateCd;
+            GameObject earthquake = Instantiate(ultimatePrefab, transform.position - new Vector3(0, 1 ,0), ultimatePrefab.transform.rotation);
+            earthquake.GetComponent<Spell>().Damage = Damage * earthQuakeDmgMultiplier;
+        }
     }
-    
+
+
 
 }

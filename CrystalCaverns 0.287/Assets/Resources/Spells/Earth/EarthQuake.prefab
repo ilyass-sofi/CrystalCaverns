@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 198047590508207568}
   - component: {fileID: 199866977494905750}
   - component: {fileID: 135873710225934846}
-  - component: {fileID: 114185492298873924}
+  - component: {fileID: 114937336155106554}
   m_Layer: 10
-  m_Name: QuickSands
+  m_Name: EarthQuake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,14 +36,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1150329652767972}
-  m_LocalRotation: {x: -0.69890016, y: -0, z: -0, w: 0.7152193}
-  m_LocalPosition: {x: -40.3011, y: 0.086, z: -55.916}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 10.403894, y: 0, z: -1.3048391}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -88.678, y: 0, z: 0}
---- !u!114 &114185492298873924
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &114937336155106554
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -51,12 +51,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1150329652767972}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93024d430a146544888448b0e02fc134, type: 3}
+  m_Script: {fileID: 11500000, guid: 08111c180ae3dd44f940b9a289f6f74b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeDestroy: 0.5
-  slowPercentage: 100
-  slowDuration: 6
+  timeDestroy: 10
+  blastCd: 1
 --- !u!135 &135873710225934846
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -76,9 +75,9 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1150329652767972}
   serializedVersion: 5
-  lengthInSec: 1
+  lengthInSec: 0.3
   simulationSpeed: 1
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -128,7 +127,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 484502495
+  randomSeed: 852884410
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -176,7 +175,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2.4713433
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -218,7 +217,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0.5586207, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1661,7 +1660,7 @@ ParticleSystem:
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1782,7 +1781,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     separateAxes: 0
-    frequency: 0.5
+    frequency: 1.19
     damping: 1
     octaves: 1
     octaveMultiplier: 0.5

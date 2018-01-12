@@ -16,5 +16,5 @@ MonoBehaviour:
     ralentizaci\xF3n.\r\n15 puntos de da\xF1o por segundo.(10 Segundos de duraci\xF3n)\r\nDuraci\xF3n
     del terremoto de 10 segundos.\r\nRalentiza un 70%\r\n"
   sprite: {fileID: 21300000, guid: 8605cd774519eae4fb3b78d35aa7a2cf, type: 3}
-  path: 
+  path: EarthQuake
   cooldown: 30

@@ -93,6 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeDestroy: 0.5
   slowPercentage: 60
+  slowDuration: 2
 --- !u!135 &135873710225934846
 SphereCollider:
   m_ObjectHideFlags: 1

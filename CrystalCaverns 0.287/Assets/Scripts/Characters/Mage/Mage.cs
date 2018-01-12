@@ -12,20 +12,27 @@ public abstract class Mage : Character
     protected GameObject groundSprite;
     protected GameObject zone;
 
-    private enum BarName { Health, Gold }
+    private enum BarName { Health, Gold, Shield }
 
     private int gold;
 
     [Tooltip("No Cooldown")]
     public bool godMode;
-
+    protected bool shield;
     protected bool combat = true;
     protected bool zonePlacementFlag;
+
+    private float maxShieldValue;
+
+    private float shieldValue;
+
+    
 
 
     #region HUD References
 
     private Image hpBar;
+    private Image shieldBar;
     private Text healthText;
     private Text goldText;
     private Image firstSpellImg;
@@ -158,6 +165,8 @@ public abstract class Mage : Character
         // Get HealthBar and HealthText
         hpBar = hpBarPanel.Find("HealthBar").GetComponent<Image>();
         healthText = hpBarPanel.Find("HealthText").GetComponent<Text>();
+        //Get Shield
+        if(shield) shieldBar = hpBarPanel.Find("ShieldBar").GetComponent<Image>();
         // Get GoldText
         goldText = GameObject.FindGameObjectWithTag("GoldText").GetComponent<Text>();
         // Get SpellBar
@@ -227,13 +236,46 @@ public abstract class Mage : Character
         }
     }
 
+    public float ShieldValue
+    {
+        get { return shieldValue; }
+        set
+        {
+            shieldValue = value;
+            Visual(BarName.Shield);
+        }
+    }
+
+    public float MaxShieldValue
+    {
+        get { return maxShieldValue; }
+        set { maxShieldValue = value;}
+    }
+
     protected override void SetSpeed(float speedValue)
     {
         //GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>(). = speedValue;
     }
 
     protected override void SetHealth(float healthValue)
-    {
+    {   
+        if(shieldValue > 0)
+        {   
+            if(shieldValue < healthValue)
+            {
+                float remaining = healthValue - shieldValue;
+                ShieldValue = 0;
+                healthValue = remaining;
+            }
+            else
+            {
+                ShieldValue -= -healthValue;
+                healthValue = 0;
+            }
+
+        }
+        
+
         base.SetHealth(healthValue);
         Visual(BarName.Health);
     }
@@ -265,6 +307,10 @@ public abstract class Mage : Character
             case BarName.Gold:
                 goldText.text = gold.ToString();
                 break;
+
+            case BarName.Shield:
+                shieldBar.fillAmount = ShieldValue / maxShieldValue;
+                break;
         };
     }
 
@@ -274,9 +320,10 @@ public abstract class Mage : Character
     public abstract void Ultimate();
 
     // Zone Casting
-
-    protected void ZonePlacement(ref float nextCd, ref float baseCd, ref bool flag, float range, float damageMultiplier, GameObject prefab)
+    protected bool ZonePlacement(ref float nextCd, ref float baseCd, ref bool flag, float range, float damageMultiplier, GameObject prefab)
     {
+        bool castMade = false;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -306,6 +353,7 @@ public abstract class Mage : Character
                         GameObject spell = Instantiate(prefab, hit.point, prefab.transform.rotation);
                         spell.GetComponent<Spell>().Damage = Damage * damageMultiplier;
                         Destroy(zone);
+                        castMade = true;
 
                     }
                 }
@@ -321,6 +369,8 @@ public abstract class Mage : Character
             else zone.SetActive(false);
         }
         else zone.SetActive(false);
+
+        return castMade;
     }
 
     protected void ClearPlacementZone(ref bool flag)

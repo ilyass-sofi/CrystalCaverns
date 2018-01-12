@@ -20,4 +20,4 @@ MonoBehaviour:
   basicAttack: {fileID: 11400000, guid: 8ece75affae4ee64cb0e43d06833ba37, type: 2}
   firstSpell: {fileID: 11400000, guid: 3b6a968fc7034e84cbac5a272ecee5ae, type: 2}
   secondSpell: {fileID: 11400000, guid: 533e98ebff0a8d14f95e3916a638939d, type: 2}
-  ultimate: {fileID: 11400000, guid: 8ece75affae4ee64cb0e43d06833ba37, type: 2}
+  ultimate: {fileID: 11400000, guid: 28eab53bcea40ca489dce67e5a7247a9, type: 2}

@@ -4,8 +4,10 @@ public class ExplosionEffectEarth : Spell
 {
     [SerializeField] private float slowPercentage;
 
+    [SerializeField] private float slowDuration;
+
     private float slowValue;
-  
+
     public override void Start()
     {
         base.Start();
@@ -14,15 +16,12 @@ public class ExplosionEffectEarth : Spell
 
     private void OnTriggerEnter(Collider other)
     {
-
         GameObject colObj = other.gameObject;
         if (colObj.CompareTag("Enemy"))
-        {   
-            Character enemy = colObj.GetComponent<Character>();
+        {
+            Enemy enemy = colObj.GetComponent<Enemy>();
             enemy.Health = -damage;
-            enemy.CurrentSpeed *= slowValue;
+            enemy.Slow(slowValue, slowDuration);
         }
-
-
     }
 }

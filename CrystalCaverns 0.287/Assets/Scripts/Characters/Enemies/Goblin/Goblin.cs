@@ -35,8 +35,9 @@ public class Goblin : Enemy {
     }
 	
 	// Update is called once per frame
-	void Update () {
-        
+	public override void Update () {
+
+        base.Update();
         if (!following)
         {
             if (Vector3.Distance(currentTarget.transform.position, transform.position) < 10)

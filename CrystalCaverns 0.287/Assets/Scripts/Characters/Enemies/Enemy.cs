@@ -18,6 +18,11 @@ public abstract class Enemy : Character
     protected GameObject shop;
     protected bool defaultTarget;
     protected float visionRange = 10;
+
+    protected bool slowed;
+    protected float slowDuration;
+    protected float currentSlowValue = 1;
+
     [SerializeField] protected int value= 1;
 
     [SerializeField] protected int goldDrop;
@@ -27,6 +32,24 @@ public abstract class Enemy : Character
     void Awake()
     {
         defaultTarget = true;
+    }
+
+
+    public virtual void Update()
+    {
+        if (slowed)
+        {
+            slowDuration -= Time.deltaTime;
+            if (slowDuration < 0)
+            {   
+
+                slowed = false;
+                currentSlowValue = 1;
+                SetSpeed(baseSpeed);
+
+            }
+        }
+        
     }
 
     protected override void SetSpeed(float speedValue)
@@ -69,6 +92,18 @@ public abstract class Enemy : Character
     {
         spawner.GetComponent<Spawn>().KillEnemy();
         Destroy(gameObject);
+    }
+
+    public void Slow(float value, float duration)
+    {
+        if (value <= currentSlowValue )
+        {
+            
+            slowDuration = duration;
+            slowed = true;
+            currentSlowValue = value;
+            SetSpeed(currentSlowValue);
+        }
     }
 
 
