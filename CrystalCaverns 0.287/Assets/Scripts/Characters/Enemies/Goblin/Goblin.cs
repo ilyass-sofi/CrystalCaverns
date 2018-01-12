@@ -14,7 +14,6 @@ public class Goblin : Enemy {
 	// Use this for initialization
 	void Awake ()
     {
-        value = 1;
 
         player = GameObject.FindGameObjectWithTag("Friendly");
 
@@ -31,12 +30,12 @@ public class Goblin : Enemy {
         following = false;
 
         goldDrop = 10;
-        dropPercent = 100;
+        goldDropPercent = 100;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        
+
         if (!following)
         {
             if (Vector3.Distance(currentTarget.transform.position, transform.position) < 10)
@@ -66,16 +65,5 @@ public class Goblin : Enemy {
             }
         }
 
-    }
-
-    protected override void Loot()
-    {
-        player.GetComponent<Mage>().Gold += goldDrop;
-    }
-
-    public override int GetValue()
-    {
-        value = 1;
-        return value;
     }
 }

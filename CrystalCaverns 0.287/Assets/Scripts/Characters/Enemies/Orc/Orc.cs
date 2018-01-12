@@ -10,7 +10,6 @@ public class Orc : Enemy {
     void Awake()
     {
         curandose = false;
-        value = 4;
 
         player = GameObject.FindGameObjectWithTag("Friendly");
 
@@ -25,7 +24,7 @@ public class Orc : Enemy {
         CurrentSpeed = BaseSpeed;
 
         goldDrop = 30;
-        dropPercent = 100;
+        goldDropPercent = 100;
     }
 
     // Update is called once per frame
@@ -55,10 +54,6 @@ public class Orc : Enemy {
         }
         if (Vector3.Distance(currentTarget.transform.position, transform.position) < 10) agent.SetDestination(shop.transform.position);
     }
-    protected override void Loot()
-    {
-        player.GetComponent<Mage>().Gold += goldDrop;
-    }
 
     private IEnumerator healMe()
     {
@@ -71,10 +66,5 @@ public class Orc : Enemy {
         } while (health < healthMax);
         health = healthMax;
         curandose = false;
-    }
-    public override int GetValue()
-    {
-        value = 3;
-        return value;
     }
 }

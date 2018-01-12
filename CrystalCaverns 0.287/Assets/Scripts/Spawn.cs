@@ -11,7 +11,7 @@ public class Spawn : MonoBehaviour {
     
 
     [System.Serializable]
-    struct enemiescant
+    struct EnemyTypes
     {        
         public string name;
         public int enemies;
@@ -29,7 +29,7 @@ public class Spawn : MonoBehaviour {
         public int waveSplit;
         public int timeBetMiniWaves;
         public int timeBetEnemies;
-        public enemiescant[] enemiesInWave;
+        public EnemyTypes[] enemyTypesInWave;
     }
 
     [SerializeField] WaveManager[] waves;
@@ -51,9 +51,9 @@ public class Spawn : MonoBehaviour {
             waveIndex++;
         else if(actualWave!=1)
         {
-            for(int i = 0; i < waves[waveIndex].enemiesInWave.Length; i++)
+            for(int i = 0; i < waves[waveIndex].enemyTypesInWave.Length; i++)
             {
-                waves[waveIndex].enemiesInWave[i].enemies += waves[waveIndex].enemiesInWave[i].enemiesModifier;
+                waves[waveIndex].enemyTypesInWave[i].enemies += waves[waveIndex].enemyTypesInWave[i].enemiesModifier;
             }
         }
         StartCoroutine(SpawnEnemies());        
@@ -61,38 +61,34 @@ public class Spawn : MonoBehaviour {
 
     private IEnumerator SpawnEnemies()
     {
-        GameObject enemy;
+        
 
-        int waveDificultyValue=0;
-        for(int i = 0; i < waves[waveIndex].enemiesInWave.Length; i++)
+        int[] enemiesLeftToSpawn = new int[waves[waveIndex].enemyTypesInWave.Length];
+        int totalEnemiesInWave=0;
+        for (int i = 0; i < enemiesLeftToSpawn.Length; i++)
         {
-            waveDificultyValue += waves[waveIndex].enemiesInWave[i].enemyPrefab.GetComponent<Enemy>().GetValue() * waves[waveIndex].enemiesInWave[i].enemies;
-        }
+            enemiesLeftToSpawn[i] = waves[waveIndex].enemyTypesInWave[i].enemies;
+            totalEnemiesInWave += waves[waveIndex].enemyTypesInWave[i].enemies;
 
-        int[] enemiesLeftToSpawn = new int[waves[waveIndex].enemiesInWave.Length];
-        for(int i = 0; i < enemiesLeftToSpawn.Length; i++)
-        {
-            enemiesLeftTosSpawn[i] = waves[waveIndex].enemiesInWave[i].enemies;
         }
-
-        int actualEnemyValue;
 
         spawning = true;
-        for (int i = 0; i < waves[waveIndex].waveSplit; i++)
+
+        for (int wavecount = 0; wavecount < waves[waveIndex].waveSplit; wavecount++)
         {
-            actualEnemyValue = 0;
-            for (; actualEnemyValue < waveDificultyValue / waves[waveIndex].waveSplit;)
+            
+            for (int actualEnemies = 0; actualEnemies < totalEnemiesInWave / waves[waveIndex].waveSplit; actualEnemies++)
             {
                 int enemyIndex=0;
                 do
                 {
-                    enemyIndex = Random.Range(0, waves[waveIndex].enemiesInWave.Length);
+                    enemyIndex = Random.Range(0, waves[waveIndex].enemyTypesInWave.Length);
                 } while (enemiesLeftToSpawn[enemyIndex] < 1);
 
                 enemiesLeftToSpawn[enemyIndex]--;
-                enemy = waves[waveIndex].enemiesInWave[enemyIndex].enemyPrefab;
+                GameObject enemy = waves[waveIndex].enemyTypesInWave[enemyIndex].enemyPrefab;
 
-                actualEnemyValue += enemy.GetComponent<Enemy>().GetValue();
+                
                 spawn(enemy);
                 yield return new WaitForSeconds(waves[waveIndex].timeBetEnemies);
             }
@@ -105,9 +101,10 @@ public class Spawn : MonoBehaviour {
     private void spawn(GameObject enemy)
     {
         GameObject tempEnemy = Instantiate(enemy, spawners[Random.Range(0, spawners.Length)].position, Quaternion.identity);
-        tempEnemy.GetComponent<Enemy>().SetTarget(objectives[Random.Range(0, objectives.Length)]);
         tempEnemy.GetComponent<Enemy>().SetSpawner(gameObject);
         tempEnemy.GetComponent<Enemy>().SetShop(shop);
+        tempEnemy.GetComponent<Enemy>().SetTarget(objectives[Random.Range(0, objectives.Length)]);
+        
         LevelManager.Instance.EnemiesAlive += 1;
     }
 

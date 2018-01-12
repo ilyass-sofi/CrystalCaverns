@@ -18,16 +18,18 @@ public abstract class Enemy : Character
     protected GameObject shop;
     protected bool defaultTarget;
     protected float visionRange = 10;
-    [SerializeField] protected int value;
 
     [SerializeField] protected int goldDrop;
-    [SerializeField] protected int dropPercent;
+    [SerializeField] protected int goldDropPercent;
+    [SerializeField] protected GameObject[] lootPrefabs;
     [SerializeField] private GameObject damageTextPrefab;
 
     void Awake()
     {
         defaultTarget = true;
+
     }
+    
 
     protected override void SetSpeed(float speedValue)
     {
@@ -43,8 +45,12 @@ public abstract class Enemy : Character
 
     public void SetTarget(GameObject _target)
     {
+        
         currentTarget = _target;
         agent.SetDestination(currentTarget.transform.position);
+
+        
+
     }
 
     public void SetSpawner(GameObject _spawner)
@@ -63,7 +69,7 @@ public abstract class Enemy : Character
         Kill();
     }
 
-    private void Kill()
+    public void Kill()
     {
         spawner.GetComponent<Spawn>().KillEnemy();
         Destroy(gameObject);
@@ -86,7 +92,12 @@ public abstract class Enemy : Character
 
     }
 
-    protected abstract void Loot();
-
-    public abstract int GetValue();
+    protected void Loot()
+    {
+        if (Random.Range(1, 100) <= goldDropPercent)
+        {
+            GameObject cristal = Instantiate(lootPrefabs[0],transform.position,transform.rotation);
+            cristal.GetComponent<Looteable>().Crystal = goldDrop;
+        }
+    }
 }
