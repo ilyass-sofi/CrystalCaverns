@@ -14,7 +14,7 @@ public class Orc : Enemy {
 
         player = GameObject.FindGameObjectWithTag("Friendly");
 
-        HealthMax = 600;
+        HealthMax = 300;
         Health = HealthMax;
         attackSpeed = 3f;
 

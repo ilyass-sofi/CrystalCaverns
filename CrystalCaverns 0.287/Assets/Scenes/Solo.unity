@@ -15079,16 +15079,26 @@ MonoBehaviour:
   - {fileID: 1429525242}
   - {fileID: 1909586164}
   shop: {fileID: 596625828}
+  waves:
+  - name: oleada 1-5
+    untilWave: 6
+    waveSplit: 1
+    timeBetMiniWaves: 0
+    timeBetEnemies: 2
+    enemiesInWave:
+    - name: Goblins
+      enemies: 6
+      enemiesModifier: 2
+      enemyPrefab: {fileID: 1663855183208222, guid: 3c6cfac65c90ee74c98334af6d1aa72c,
+        type: 2}
+    - name: Orcos
+      enemies: 2
+      enemiesModifier: 2
+      enemyPrefab: {fileID: 1663855183208222, guid: cf3cfcb4f01538444b4bd1dbb494eb74,
+        type: 2}
   spawners:
   - {fileID: 1834622723}
   - {fileID: 1782123372}
-  defaultTimeBetEnemies: 0
-  timeBetWaves: 0
-  waveDificultyValue: 0
-  waveDificultyModifier: 0
-  enemies:
-  - {fileID: 1663855183208222, guid: 3c6cfac65c90ee74c98334af6d1aa72c, type: 2}
-  - {fileID: 1663855183208222, guid: cf3cfcb4f01538444b4bd1dbb494eb74, type: 2}
   wayToBasePrefab: {fileID: 1117309125513038, guid: f791c673603f8454ebc0462a8d8f99cc,
     type: 2}
 --- !u!1001 &2049761220

@@ -8,56 +8,53 @@ public class Spawn : MonoBehaviour {
     [SerializeField] private GameObject[] objectives;
     [SerializeField] private GameObject shop;
     #endregion
+    
+
+    [System.Serializable]
+    struct enemiescant
+    {        
+        public string name;
+        public int enemies;
+        public int enemiesModifier;
+        public GameObject enemyPrefab;
+    }
+
+    private int waveIndex;
+
+    [System.Serializable]
+    struct WaveManager
+    {
+        public string name;
+        public int untilWave;
+        public int waveSplit;
+        public int timeBetMiniWaves;
+        public int timeBetEnemies;
+        public enemiescant[] enemiesInWave;
+    }
+
+    [SerializeField] WaveManager[] waves;
 
     [SerializeField] private Transform[] spawners;
-
-    private bool spawning;
     
-    [SerializeField] private int defaultTimeBetEnemies;
-    private int newTimeBetEnemies;
-
-    [SerializeField] private float timeBetWaves;
-    private int wavesInWave;
-
-    private int actualEnemyValue;
-    [SerializeField] private int waveDificultyValue;
-    [SerializeField] private int waveDificultyModifier;
-
-    [SerializeField] private GameObject[] enemies;
+    private bool spawning;
     [SerializeField] private GameObject wayToBasePrefab;
 
 
     void Start ()
     {
-       
-        newTimeBetEnemies = defaultTimeBetEnemies;
+        waveIndex = 0;
     }
 
     public void Manager(int actualWave)
     {
-        if(actualWave == 1)
+        if (waves[waveIndex].untilWave < actualWave)
+            waveIndex++;
+        else if(actualWave!=1)
         {
-            timeBetWaves = 0;
-            wavesInWave = 1;
-            waveDificultyValue = 2;
-        }
-        else if (actualWave <= 5)
-        {
-            timeBetWaves = 0;
-            wavesInWave = 1;
-            waveDificultyValue += 4;
-        }
-        else if (actualWave <= 10)
-        {
-            timeBetWaves = 5;
-            wavesInWave = 2;
-            waveDificultyValue += 6;
-        }
-        else
-        {
-            timeBetWaves = 5;
-            wavesInWave = 3;
-            waveDificultyValue *= 2;
+            for(int i = 0; i < waves[waveIndex].enemiesInWave.Length; i++)
+            {
+                waves[waveIndex].enemiesInWave[i].enemies += waves[waveIndex].enemiesInWave[i].enemiesModifier;
+            }
         }
         StartCoroutine(SpawnEnemies());        
     }
@@ -65,28 +62,41 @@ public class Spawn : MonoBehaviour {
     private IEnumerator SpawnEnemies()
     {
         GameObject enemy;
-        int enemyValue;
 
-        newTimeBetEnemies = defaultTimeBetEnemies;
+        int waveDificultyValue=0;
+        for(int i = 0; i < waves[waveIndex].enemiesInWave.Length; i++)
+        {
+            waveDificultyValue += waves[waveIndex].enemiesInWave[i].enemyPrefab.GetComponent<Enemy>().GetValue() * waves[waveIndex].enemiesInWave[i].enemies;
+        }
+
+        int[] enemiesLeftToSpawn = new int[waves[waveIndex].enemiesInWave.Length];
+        for(int i = 0; i < enemiesLeftToSpawn.Length; i++)
+        {
+            enemiesLeftTosSpawn[i] = waves[waveIndex].enemiesInWave[i].enemies;
+        }
+
+        int actualEnemyValue;
+
         spawning = true;
-        for(int i = 0; i < wavesInWave;i++)
+        for (int i = 0; i < waves[waveIndex].waveSplit; i++)
         {
             actualEnemyValue = 0;
-            for (; actualEnemyValue < waveDificultyValue / wavesInWave;)
+            for (; actualEnemyValue < waveDificultyValue / waves[waveIndex].waveSplit;)
             {
-                enemy = enemies[Random.Range(0, enemies.Length)];
-                enemyValue = enemy.GetComponent<Enemy>().GetValue();
-                while (actualEnemyValue + enemyValue > waveDificultyValue/wavesInWave)//loop while the enemy value is higher than the lvl dificulty
+                int enemyIndex=0;
+                do
                 {
-                    enemy = enemies[Random.Range(0, enemies.Length - 1)];
-                    enemyValue = enemy.GetComponent<Enemy>().GetValue();
-                }
-                actualEnemyValue += enemyValue;
+                    enemyIndex = Random.Range(0, waves[waveIndex].enemiesInWave.Length);
+                } while (enemiesLeftToSpawn[enemyIndex] < 1);
+
+                enemiesLeftToSpawn[enemyIndex]--;
+                enemy = waves[waveIndex].enemiesInWave[enemyIndex].enemyPrefab;
+
+                actualEnemyValue += enemy.GetComponent<Enemy>().GetValue();
                 spawn(enemy);
-                yield return new WaitForSeconds(newTimeBetEnemies);
+                yield return new WaitForSeconds(waves[waveIndex].timeBetEnemies);
             }
-            yield return new WaitForSeconds(timeBetWaves);
-            newTimeBetEnemies /= 2;
+            yield return new WaitForSeconds(waves[waveIndex].timeBetMiniWaves);
         }
         spawning = false;
         checkFin();            

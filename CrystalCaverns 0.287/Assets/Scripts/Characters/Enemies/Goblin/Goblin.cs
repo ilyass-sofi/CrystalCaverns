@@ -18,7 +18,7 @@ public class Goblin : Enemy {
 
         player = GameObject.FindGameObjectWithTag("Friendly");
 
-        HealthMax = 300;
+        HealthMax = 100;
         Health = HealthMax;
         attackSpeed = 3f;
 

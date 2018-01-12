@@ -18,7 +18,7 @@ public abstract class Enemy : Character
     protected GameObject shop;
     protected bool defaultTarget;
     protected float visionRange = 10;
-    [SerializeField] protected int value= 1;
+    [SerializeField] protected int value;
 
     [SerializeField] protected int goldDrop;
     [SerializeField] protected int dropPercent;
@@ -59,13 +59,11 @@ public abstract class Enemy : Character
 
     protected override void GameOver()
     {
-       
         Loot();
         Kill();
-       
     }
 
-    public void Kill()
+    private void Kill()
     {
         spawner.GetComponent<Spawn>().KillEnemy();
         Destroy(gameObject);
