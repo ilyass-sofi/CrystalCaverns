@@ -2,23 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireSpiral : MonoBehaviour
+public class FireSpiral : Spell
 {
-    [SerializeField] private float timeDestroy;
     [SerializeField] private GameObject explosionPrefab;
     [SerializeField] private float explosionEffectDmgMultiplier = 35.0f / 100.0f;
-
-    private float damage;
-    public float Damage
-    {
-        get { return damage; }
-        set { damage = value; }
-    }
-
-    private void Start()
-    {
-        Destroy(gameObject, timeDestroy);
-    }
 
     private void OnTriggerEnter(Collider other)
     {   

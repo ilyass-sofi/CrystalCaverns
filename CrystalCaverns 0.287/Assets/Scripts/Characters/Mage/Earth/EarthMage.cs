@@ -39,7 +39,6 @@ public class EarthMage : Mage
         shield = true;
         MaxShieldValue = 100;
         base.Awake();
-        ShieldValue = 35;
         rockCircle = Instantiate(Resources.Load("Spells/Earth/RockCircle") as GameObject,transform).GetComponent<RockCircle>();
         groundSprite = Resources.Load("Spells/ZoneEarth") as GameObject;
     }
@@ -66,12 +65,18 @@ public class EarthMage : Mage
 
         if (combat && zonePlacementFlag)
         {
-            if (earthPilarPlacement) if (ZonePlacement(ref nextFirstSpellCd, ref firstSpellCd, ref earthPilarPlacement, pilarRange, pilarDmgMultiplier, firstSpellPrefab))
+            if (earthPilarPlacement)
             {
-                rockCircle.AddRock();
-                rockCircle.AddRock();
+                if (ZonePlacement(ref nextFirstSpellCd, ref firstSpellCd, ref earthPilarPlacement, pilarRange, pilarDmgMultiplier, firstSpellPrefab))
+                {
+                    rockCircle.AddRock();
+                    rockCircle.AddRock();
+                }
             }
-            else if (quickSandPlacement) ZonePlacement(ref nextSecondSpellCd, ref secondSpellCd, ref quickSandPlacement, quickSandRange, quickSandDmgMultiplier, secondSpellPrefab);
+            else if (quickSandPlacement)
+            {
+                ZonePlacement(ref nextSecondSpellCd, ref secondSpellCd, ref quickSandPlacement, quickSandRange, quickSandDmgMultiplier, secondSpellPrefab);
+            }
         }
         else if (zone)
         {
@@ -83,9 +88,8 @@ public class EarthMage : Mage
 
     public override void BasicAttack()
     {
-         
         // Check if cd is off
-        if ((rockCircle.getCurrentRockCount() > 0 || godMode) && !zonePlacementFlag)
+        if ((rockCircle.getCurrentRockCount() > 0 || godMode) && !zone)
         {
             rockCircle.RemoveRock();
             // Spawn the prefab
@@ -101,8 +105,9 @@ public class EarthMage : Mage
 
     public override void FirstSpell()
     {
-        if ((Time.time >= nextFirstSpellCd || godMode) && !zonePlacementFlag)
+        if (Time.time >= nextFirstSpellCd || godMode)
         {
+            quickSandPlacement = false;
             zonePlacementFlag = true;
             earthPilarPlacement = true;
             if (zone) Destroy(zone);
@@ -112,8 +117,9 @@ public class EarthMage : Mage
 
     public override void SecondSpell()
     {
-        if ((Time.time >= nextSecondSpellCd || godMode) && !zonePlacementFlag)
+        if (Time.time >= nextSecondSpellCd || godMode)
         {
+            earthPilarPlacement = false;
             zonePlacementFlag = true;
             quickSandPlacement = true;
             if (zone) Destroy(zone);

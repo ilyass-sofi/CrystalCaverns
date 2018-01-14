@@ -12,6 +12,7 @@ public class RoadLaser : MonoBehaviour {
     private void Start()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        Destroy(gameObject, 10);
     }
 
     void Update ()

@@ -3186,11 +3186,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 748964446}
---- !u!1 &755959279 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1808055658413016, guid: 8c8da0bc39d1c2b4388c63f54c4d2345,
-    type: 2}
-  m_PrefabInternal: {fileID: 341970062}
 --- !u!114 &755959280 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114491426077742604, guid: 8c8da0bc39d1c2b4388c63f54c4d2345,
@@ -3202,20 +3197,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4395470507581114, guid: 8c8da0bc39d1c2b4388c63f54c4d2345,
     type: 2}
   m_PrefabInternal: {fileID: 341970062}
---- !u!114 &755959282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 755959279}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5201d4163e1c40f48af632920f4990b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mage: {fileID: 0}
-  builder: {fileID: 0}
-  ui: {fileID: 0}
 --- !u!1 &772352643
 GameObject:
   m_ObjectHideFlags: 0
@@ -7751,6 +7732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6868a43d0676384d9d3335da1b74f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultMage: {fileID: 0}
 --- !u!1 &1643109935
 GameObject:
   m_ObjectHideFlags: 0

@@ -72,17 +72,14 @@ public abstract class Mage : Character
 
     public virtual void Awake()
     {
-        MageAsset mageSelect = GameObject.Find("MenuManager").GetComponent<PassThroughScene>().SelectedMage;
+        //MageAsset mageSelect = GameObject.Find("MenuManager").GetComponent<PassThroughScene>().SelectedMage;
 
 
-        if (mageSelect != null) SetMageAsset(mageSelect);
-        else SetMageAsset();
+        //if (mageSelect != null) SetMageAsset(mageSelect);
+        //else SetMageAsset();
 
 
-        rayCont = GetComponent<RaycastController>();
-        shootPoint = transform.GetChild(0).GetChild(0);
-
-        Gold = 5000;
+        
         
     }
 
@@ -95,6 +92,10 @@ public abstract class Mage : Character
     {   
         if(_mageAsset != null)
         mageAsset = _mageAsset;
+
+        rayCont = GetComponent<RaycastController>();
+        shootPoint = transform.GetChild(0).GetChild(0);
+        
 
         GetHUDReferences();
         LoadPrefabSpells();
@@ -166,7 +167,8 @@ public abstract class Mage : Character
         hpBar = hpBarPanel.Find("HealthBar").GetComponent<Image>();
         healthText = hpBarPanel.Find("HealthText").GetComponent<Text>();
         //Get Shield
-        if(shield) shieldBar = hpBarPanel.Find("ShieldBar").GetComponent<Image>();
+        shieldBar = hpBarPanel.Find("ShieldBar").GetComponent<Image>();
+        if (!shield) shieldBar.gameObject.SetActive(false);
         // Get GoldText
         goldText = GameObject.FindGameObjectWithTag("GoldText").GetComponent<Text>();
         // Get SpellBar
@@ -209,12 +211,15 @@ public abstract class Mage : Character
         HealthMax = mageAsset.baseHealth;
         Health = HealthMax;//this should be done on character
         Damage = mageAsset.baseDamage;
+        Gold = 5000;
 
+        if (shield) ShieldValue = MaxShieldValue;
         //basicCd = mageAsset.passiveSpell.cooldown;
         basicCd = mageAsset.basicAttack.cooldown;
         firstSpellCd = mageAsset.firstSpell.cooldown;
         secondSpellCd = mageAsset.secondSpell.cooldown;
         ultimateCd = mageAsset.ultimate.cooldown;
+
     }
 
     public bool Combat
@@ -331,6 +336,11 @@ public abstract class Mage : Character
         if (Physics.Raycast(ray, out hit, 60, 9))
         {
 
+            if (Input.GetMouseButtonDown(1))
+            {
+                ClearPlacementZone(ref flag);
+            }
+
             if (hit.transform.gameObject.CompareTag("Ground"))
             {
                 zone.SetActive(true);
@@ -346,7 +356,6 @@ public abstract class Mage : Character
 
                     if (Input.GetMouseButtonDown(0))
                     {
-
                         nextCd = Time.time + baseCd;
                         flag = false;
                         zonePlacementFlag = false;
@@ -354,16 +363,13 @@ public abstract class Mage : Character
                         spell.GetComponent<Spell>().Damage = Damage * damageMultiplier;
                         Destroy(zone);
                         castMade = true;
-
+                        
                     }
                 }
                 //If not then paint as another color
                 else zoneImage.GetComponent<SpriteRenderer>().color = Color.black;
 
-                if (Input.GetMouseButtonDown(1))
-                {
-                    ClearPlacementZone(ref flag);
-                }
+                
 
             }
             else zone.SetActive(false);

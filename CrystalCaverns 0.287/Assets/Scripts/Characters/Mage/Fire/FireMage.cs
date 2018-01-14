@@ -34,17 +34,19 @@ public class FireMage : Mage
         base.Update();
 
         if (combat && fireSpiralPlacement)
-            FireSpiralPlacement();
+        {
+            ZonePlacement(ref nextSecondSpellCd, ref secondSpellCd, ref fireSpiralPlacement, spiralRange, spiralDmgMultiplier, secondSpellPrefab);
+        }
         else if (zone)
-            ClearFireSpiralZone();
-        
+        ClearPlacementZone(ref fireSpiralPlacement);
+
     }
 
 
     public override void BasicAttack()
     {
         // Check if cd is off
-        if ((Time.time >= nextBasicCd || godMode) && !fireSpiralPlacement)
+        if ((Time.time >= nextBasicCd || godMode) && !zone)
         {
             // Add Cd
             nextBasicCd = Time.time + basicCd;
@@ -81,6 +83,7 @@ public class FireMage : Mage
     {
         if (Time.time >= nextSecondSpellCd || godMode)
         {
+            zonePlacementFlag = true;
             fireSpiralPlacement = true;
             if (zone) Destroy(zone);
             zone = Instantiate(groundSprite, transform.position + Vector3.down * 10, Quaternion.identity);
@@ -101,62 +104,6 @@ public class FireMage : Mage
             
         }
     }
-
-    private void FireSpiralPlacement()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        //Send a raycast to the cam direction ignoring the object that you are building within a specified range
-
-        if (Physics.Raycast(ray, out hit, 60, 9))
-        {
-
-            if (hit.transform.gameObject.tag == "Ground")
-            {
-                zone.SetActive(true);
-                //Place the zone
-                zone.transform.position = hit.point;
-                //Get his image for recoloring purposes
-                GameObject zoneImage = zone.transform.GetChild(0).gameObject;
-
-                //If the distance is under the range then paint it in green
-                if (Vector3.Distance(transform.position, hit.point) < spiralRange)
-                {
-
-                    zoneImage.GetComponent<SpriteRenderer>().color = Color.white;
-
-                    if (Input.GetMouseButtonDown(0))
-                    {
-
-                        nextSecondSpellCd = Time.time + secondSpellCd;
-                        fireSpiralPlacement = false;
-                        GameObject fireSpiral = Instantiate(secondSpellPrefab, hit.point, transform.rotation);
-                        fireSpiral.GetComponent<FireSpiral>().Damage = Damage * spiralDmgMultiplier;
-                        Destroy(zone);
-
-                    }
-                }
-                //If not then paint it red
-                else zoneImage.GetComponent<SpriteRenderer>().color = Color.black;
-
-
-                if (Input.GetMouseButtonDown(1))
-                {
-                    fireSpiralPlacement = false;
-                    nextSecondSpellCd = 0;
-                    Destroy(zone);
-                }
-
-            }
-            else zone.SetActive(false);
-        }
-        else zone.SetActive(false);
-
-    }
-
-    private void ClearFireSpiralZone()
-    {
-        Destroy(zone);
-        fireSpiralPlacement = false;
-    }
+    
+   
 }

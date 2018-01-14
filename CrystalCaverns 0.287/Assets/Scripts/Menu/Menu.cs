@@ -35,7 +35,7 @@ public class Menu : MonoBehaviour
     private Transform description;
 
     private void Start()
-    {
+    {   
         SelectMage(initialMage);
     }
 
@@ -55,36 +55,6 @@ public class Menu : MonoBehaviour
         modePanel.SetActive(!modePanel.activeSelf);
         magePick.SetActive(!magePick.activeSelf);
     }
-
-    //public void Passive()
-    //{
-    //    description = magePick.transform.GetChild(0).GetChild(0).GetChild(0);
-    //    description.gameObject.SetActive(!description.gameObject.activeSelf);
-    //}
-
-    //public void Fireball()
-    //{
-    //    description = magePick.transform.GetChild(0).GetChild(1).GetChild(0);
-    //    description.gameObject.SetActive(!description.gameObject.activeSelf);
-    //}
-
-    //public void Explosion()
-    //{
-    //    description = magePick.transform.GetChild(0).GetChild(2).GetChild(0);
-    //    description.gameObject.SetActive(!description.gameObject.activeSelf);
-    //}
-
-    //public void TorrentOfFire()
-    //{
-    //    description = magePick.transform.GetChild(0).GetChild(3).GetChild(0);
-    //    description.gameObject.SetActive(!description.gameObject.activeSelf);
-    //}
-
-    //public void WaveOfFire()
-    //{
-    //    description = magePick.transform.GetChild(0).GetChild(4).GetChild(0);
-    //    description.gameObject.SetActive(!description.gameObject.activeSelf);
-    //}
 
     public void ToggleMageTraps()
     {

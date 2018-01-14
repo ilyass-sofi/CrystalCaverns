@@ -9,13 +9,6 @@ public class Earthquake : Spell
     private float nextBlastCd;
     [SerializeField] private float blastCd;
 
-
-    public override void Start()
-    {
-        base.Start();
-
-    }
-
     private void Update()
     {
         if (enemyList.Count > 0)

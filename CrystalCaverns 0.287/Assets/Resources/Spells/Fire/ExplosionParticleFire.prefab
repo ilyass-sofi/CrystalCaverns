@@ -91,7 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c1ae5a53d1e8c448b05b8584a303433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  burnPrefab: {fileID: 0}
+  timeDestroy: 0.5
+  burnPrefab: {fileID: 1385106022807684, guid: 2a941785d7147a94ca561234417a620c, type: 2}
 --- !u!135 &135873710225934846
 SphereCollider:
   m_ObjectHideFlags: 1
