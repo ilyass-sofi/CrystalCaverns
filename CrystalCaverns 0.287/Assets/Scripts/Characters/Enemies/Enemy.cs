@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public abstract class Enemy : Character
 {
+    [SerializeField] protected string enemyName;
+
     /// <summary>
     /// Spawner that spawned this enemy
     /// </summary>
@@ -50,6 +52,12 @@ public abstract class Enemy : Character
             }
         }
         
+    }
+
+    public string EnemyName
+    {
+        get { return enemyName; }
+        set { enemyName = value; }
     }
 
     protected override void SetSpeed(float speedValue)

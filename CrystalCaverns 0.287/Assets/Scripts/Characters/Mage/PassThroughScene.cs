@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PassThroughScene : MonoBehaviour {
 
     [SerializeField] private MageAsset defaultMage;
+    [SerializeField] private BuildingAsset[] defaultBuildings;
 
     static MageAsset selectedMage;
 
@@ -11,6 +13,14 @@ public class PassThroughScene : MonoBehaviour {
     {
         get { return selectedMage; }
         set { selectedMage = value; }
+    }
+
+    static BuildingAsset[] selectedBuildings;
+
+    public BuildingAsset[] SelectedBuildings
+    {
+        get { return selectedBuildings; }
+        set { selectedBuildings = value; }
     }
 
     private void Awake()
@@ -39,6 +49,14 @@ public class PassThroughScene : MonoBehaviour {
            
 
             player.GetComponent<Mage>().SetMageAsset(selectedMage);
+
+            if (selectedBuildings == null)
+            {
+                selectedBuildings = defaultBuildings;
+            }
+
+            player.GetComponent<Builder>().SetBuildings(selectedBuildings);
+
 
 
         }

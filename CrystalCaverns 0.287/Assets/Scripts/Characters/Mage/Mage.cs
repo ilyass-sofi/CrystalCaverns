@@ -26,8 +26,9 @@ public abstract class Mage : Character
 
     private float shieldValue;
 
-    
-
+    private Transform enemyHpBarPanel;
+    private bool enemyBar;
+    private Enemy selectedEnemy;
 
     #region HUD References
 
@@ -39,6 +40,10 @@ public abstract class Mage : Character
     private Image secondSpellImg;
     private Image ultSpellImg;
 
+    private Image enemyHpBar;
+    private Text enemyHealthText;
+    private Text enemyName;
+    private GameObject enemyEffects;
     #endregion
 
     #region Spell Prefabs
@@ -72,12 +77,7 @@ public abstract class Mage : Character
 
     public virtual void Awake()
     {
-        //MageAsset mageSelect = GameObject.Find("MenuManager").GetComponent<PassThroughScene>().SelectedMage;
-
-
-        //if (mageSelect != null) SetMageAsset(mageSelect);
-        //else SetMageAsset();
-
+        
 
         
         
@@ -86,6 +86,39 @@ public abstract class Mage : Character
     public virtual void Update()
     {
         SpellsCooldownEffect();
+
+        
+        if (rayCont.NormalTarget != null )
+        {
+            
+            selectedEnemy = rayCont.NormalTarget.GetComponent<Enemy>();
+            enemyName.text = selectedEnemy.EnemyName;
+            enemyHpBarPanel.gameObject.SetActive(true);
+        }
+       
+
+        if (selectedEnemy)
+        {
+            GameObject enemyBurn = enemyEffects.transform.GetChild(0).gameObject;
+
+            if (selectedEnemy.IsBurning)
+            {
+                enemyBurn.SetActive(true);
+                enemyBurn.GetComponent<Image>().fillAmount = selectedEnemy.transform.Find("Burn").GetComponent<Burn>().getTimeLeft() / selectedEnemy.transform.Find("Burn").GetComponent<Burn>().getBaseDuration();
+            } 
+            else
+            {
+                enemyBurn.SetActive(false);
+            }
+
+            enemyHpBar.fillAmount = selectedEnemy.Health / selectedEnemy.HealthMax;
+            enemyHealthText.text = (int)selectedEnemy.Health + "/" + selectedEnemy.HealthMax;
+            
+        }
+        else
+        {
+            enemyHpBarPanel.gameObject.SetActive(false);
+        }
     }
 
     public void SetMageAsset(MageAsset _mageAsset = null)
@@ -177,6 +210,16 @@ public abstract class Mage : Character
         firstSpellImg = spellBar.Find("FirstAbility").GetComponent<Image>();
         secondSpellImg = spellBar.Find("SecondAbility").GetComponent<Image>();
         ultSpellImg = spellBar.Find("Ultimate").GetComponent<Image>();
+
+        enemyHpBarPanel = GameObject.FindGameObjectWithTag("EnemyHealthBar").transform;
+
+        enemyHpBar = enemyHpBarPanel.Find("EnemyHealthBar").GetComponent<Image>();
+        enemyHealthText = enemyHpBarPanel.Find("EnemyHealthText").GetComponent<Text>();
+        enemyName = enemyHpBarPanel.Find("EnemyName").GetComponent<Text>();
+
+        enemyEffects = enemyHpBarPanel.Find("EnemyEffects").gameObject;
+
+
     }
 
     /// <summary>

@@ -64,7 +64,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1919928419162614
 GameObject:
   m_ObjectHideFlags: 1
@@ -279,6 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9a2605952816e4b9e56bed38a53f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyName: Orc
   value: 3
   goldDrop: 30
   dropPercent: 100

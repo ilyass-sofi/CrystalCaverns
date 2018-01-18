@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c615a26acb7532849bc0e60836094501, type: 3}
+  m_Name: 3. ArcaneTower
+  m_EditorClassIdentifier: 
+  buildingName: Torre Arcana
+  description: Una torre que ataca los enemigos cercanos.
+  cost: 50
+  buildingLimit: 2
+  sprite: {fileID: 21300000, guid: 5306855329709654aadf7dbfb97967cf, type: 3}
+  buildingPrefab: {fileID: 1532737420886362, guid: daccc580dc8b3ed4493232b78d232c50,
+    type: 2}

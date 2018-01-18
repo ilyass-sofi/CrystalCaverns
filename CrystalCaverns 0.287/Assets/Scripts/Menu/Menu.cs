@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,18 +10,15 @@ public class Menu : MonoBehaviour
 
     [SerializeField] private GameObject backgroundPanel;
     [SerializeField] private GameObject modePanel;
-    [SerializeField] private GameObject magePick;
-    [SerializeField] private GameObject trapsPick;
     [SerializeField] private GameObject settingsPanel;
 
-    [SerializeField] private GameObject backgroundSpell;
 
+    [Header("Mage Pick")]
+    [SerializeField] private GameObject magePick;
     [SerializeField] private MageAsset initialMage;
+    [SerializeField] private GameObject backgroundSpell;
+    private MageAsset selectedMage;
 
-    [Header("Settings")]
-    [SerializeField] private GameObject keybindsPanel;
-    [SerializeField] private GameObject audioPanel;
-    [SerializeField] private GameObject videoPanel;
 
     [Header("Abilities")]
     [SerializeField] private GameObject passiveAbility;
@@ -29,14 +27,39 @@ public class Menu : MonoBehaviour
     [SerializeField] private GameObject secondAbility;
     [SerializeField] private GameObject ultimateAbility;
 
-    private MageAsset selectedMage;
+
+    [Header("Building Pick")]
+    [SerializeField] private GameObject trapsPick;
+    [SerializeField] private GameObject render;
+    [SerializeField] private GameObject backgroundTrap;
+    [SerializeField] private BuildingAsset initialBuilding;
+    [SerializeField] private GameObject buildingPicks;
+    private List<BuildingAsset> buildingPicksAssets = new List<BuildingAsset>();
+    private Text trapName;
+    private Text trapDescription;
+    private GameObject renderInstance;
+
+    [Header("Settings")]
+    [SerializeField] private GameObject keybindsPanel;
+    [SerializeField] private GameObject audioPanel;
+    [SerializeField] private GameObject videoPanel;
+
 
     private GameObject openPanel;
-    private Transform description;
+
 
     private void Start()
-    {   
+    {
+        trapName = backgroundTrap.transform.GetChild(0).GetComponent<Text>();
+        trapDescription = backgroundTrap.transform.GetChild(1).GetComponent<Text>();
+
         SelectMage(initialMage);
+        SelectBuilding(initialBuilding);
+    }
+
+    private void Update()
+    {
+        if (trapsPick.activeSelf && Input.GetMouseButton(0)) renderInstance.transform.Rotate(new Vector3(0, -Input.GetAxis("Mouse X"), 0) * Time.deltaTime * 300);
     }
 
     public void ToggleSettings()
@@ -62,47 +85,16 @@ public class Menu : MonoBehaviour
         trapsPick.SetActive(!trapsPick.activeSelf);
     }
 
-    public void Barricade()
-    {
-        description = trapsPick.transform.GetChild(0).GetChild(0).GetChild(0);
-        description.gameObject.SetActive(!description.gameObject.activeSelf);
-    }
-
-    public void ArcaneTower()
-    {
-        description = trapsPick.transform.GetChild(0).GetChild(1).GetChild(0);
-        description.gameObject.SetActive(!description.gameObject.activeSelf);
-    }
-
-    public void Brambles()
-    {
-        description = trapsPick.transform.GetChild(0).GetChild(2).GetChild(0);
-        description.gameObject.SetActive(!description.gameObject.activeSelf);
-    }
-
-    public void BarricadePick()
-    {
-        description = trapsPick.transform.GetChild(1).GetChild(0).GetChild(0);
-        description.gameObject.SetActive(!description.gameObject.activeSelf);
-    }
-
-    public void ArcaneTowerPick()
-    {
-        description = trapsPick.transform.GetChild(1).GetChild(1).GetChild(0);
-        description.gameObject.SetActive(!description.gameObject.activeSelf);
-    }
-
-    public void BramblesPick()
-    {
-        description = trapsPick.transform.GetChild(1).GetChild(2).GetChild(0);
-        description.gameObject.SetActive(!description.gameObject.activeSelf);
-    }
-
     public void GoToSolo()
     {   
+        if(buildingPicks.transform.childCount == 3)
+        {
+            passThroughScene.SelectedMage = selectedMage;
+            GetSelectedBuildings();
+            passThroughScene.SelectedBuildings = buildingPicksAssets.ToArray();
+            SceneManager.LoadScene("Solo");
+        }
         
-        passThroughScene.SelectedMage = selectedMage;
-        SceneManager.LoadScene("Solo");
     }
 
     public void GoToMpLobby()
@@ -134,8 +126,6 @@ public class Menu : MonoBehaviour
         SetOnPointerEnterEvent(firstAbility, selectedMage.firstSpell);
         SetOnPointerEnterEvent(secondAbility, selectedMage.secondSpell);
         SetOnPointerEnterEvent(ultimateAbility, selectedMage.ultimate);
-
-
 
     }
 
@@ -188,4 +178,24 @@ public class Menu : MonoBehaviour
                 break;
         }      
     }
+
+    public void SelectBuilding(BuildingAsset buildingAsset)
+    {
+        trapName.text = buildingAsset.buildingName;
+        trapDescription.text = buildingAsset.description;
+
+        if (renderInstance) Destroy(renderInstance);
+        renderInstance = Instantiate(buildingAsset.buildingPrefab, render.transform.position, buildingAsset.buildingPrefab.transform.rotation);
+    }
+
+    public void GetSelectedBuildings()
+    {
+        for (int i = 0; i < buildingPicks.transform.childCount; i++)
+        {
+            buildingPicksAssets.Add(buildingPicks.transform.GetChild(i).GetComponent<DragHandler>().buildingAsset);
+        }
+
+    }
+
+   
 }

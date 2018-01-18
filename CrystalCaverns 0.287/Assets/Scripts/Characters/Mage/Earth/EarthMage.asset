@@ -16,7 +16,7 @@ MonoBehaviour:
   baseDamage: 35
   path: Earth
   splashArt: {fileID: 21300000, guid: 8605cd774519eae4fb3b78d35aa7a2cf, type: 3}
-  passiveSpell: {fileID: 11400000, guid: 8ece75affae4ee64cb0e43d06833ba37, type: 2}
+  passiveSpell: {fileID: 11400000, guid: 5c166d9e246ac374186a213065d3d1d2, type: 2}
   basicAttack: {fileID: 11400000, guid: 8ece75affae4ee64cb0e43d06833ba37, type: 2}
   firstSpell: {fileID: 11400000, guid: 3b6a968fc7034e84cbac5a272ecee5ae, type: 2}
   secondSpell: {fileID: 11400000, guid: 533e98ebff0a8d14f95e3916a638939d, type: 2}

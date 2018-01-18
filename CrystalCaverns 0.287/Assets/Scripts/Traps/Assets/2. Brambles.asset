@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c615a26acb7532849bc0e60836094501, type: 3}
+  m_Name: 2. Brambles
+  m_EditorClassIdentifier: 
+  buildingName: Zarzas
+  description: "Unas zarzas que ralentizan a los enemigos que pasen por ellas, pero
+    se ir\xE1n rompiendo poco a poco."
+  cost: 30
+  buildingLimit: 12
+  sprite: {fileID: 21300000, guid: bd830011a68ec244bb449caf22078f49, type: 3}
+  buildingPrefab: {fileID: 1787404365939932, guid: 20758ee5cac9f734aa3c794fc47ec98a,
+    type: 2}

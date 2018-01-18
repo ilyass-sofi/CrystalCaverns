@@ -95,7 +95,7 @@ public class EarthMage : Mage
             // Spawn the prefab
             GameObject ball = Instantiate(basicAttackPrefab, shootPoint.position, shootPoint.rotation);
             // Make it look at the target
-            ball.transform.LookAt(rayCont.NormalTarget);
+            ball.transform.LookAt(rayCont.NormalPosition);
             // Set the basic damage
             ball.GetComponent<SharpRock>().Damage = Damage;
             // Impulse the projectile to the target

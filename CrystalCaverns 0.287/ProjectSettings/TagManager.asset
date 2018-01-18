@@ -16,6 +16,7 @@ TagManager:
   - HealthBar
   - GoldText
   - SpellBar
+  - EnemyHealthBar
   layers:
   - Default
   - TransparentFX

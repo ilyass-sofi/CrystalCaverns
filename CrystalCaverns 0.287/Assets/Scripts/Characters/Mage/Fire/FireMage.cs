@@ -53,7 +53,7 @@ public class FireMage : Mage
             // Spawn the prefab
             GameObject ball = Instantiate(basicAttackPrefab, shootPoint.position, shootPoint.rotation);
             // Make it look at the target
-            ball.transform.LookAt(rayCont.NormalTarget);
+            ball.transform.LookAt(rayCont.NormalPosition);
             // Set the basic damage
             ball.GetComponent<FireBall>().Damage = Damage;
             // Impulse the projectile to the target
@@ -71,7 +71,7 @@ public class FireMage : Mage
             //Spawn the prefab
             GameObject explosion = Instantiate(firstSpellPrefab, shootPoint.position, shootPoint.rotation);
             //Make it look at the target
-            explosion.transform.LookAt(rayCont.NormalTarget);
+            explosion.transform.LookAt(rayCont.NormalPosition);
             //Set the damage multiplied
             explosion.GetComponent<Explosion>().Damage = Damage * firstDmgMultiplier;
             //Impulse the projectile to the target

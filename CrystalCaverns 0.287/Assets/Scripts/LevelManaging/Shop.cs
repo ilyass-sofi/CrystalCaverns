@@ -18,13 +18,12 @@ public class Shop : MonoBehaviour {
     void Start ()
     {   
         lvlManager = GameObject.FindWithTag("LevelManager").GetComponent<LevelManager>();
-
         itemName = shopPrefab.name;
 
         Building shopBuilding = shopPrefab.GetComponent<Building>();
-        itemDesc = shopBuilding.Description;
-        itemPrice = shopBuilding.Price;
-        itemSprite = shopBuilding.Sprite;
+        //itemDesc = shopBuilding.Description;
+        //itemPrice = shopBuilding.Price;
+        //itemSprite = shopBuilding.Sprite;
     }
 
     private void Update()
@@ -60,10 +59,10 @@ public class Shop : MonoBehaviour {
 
     public void BuyItem()
     {
-        if(player.Gold >= itemPrice)
-        {
-            lvlManager.AddItem(shopPrefab.GetComponent<Building>().Type, itemPrice);
-        }
+        //if(player.Gold >= itemPrice)
+        //{
+        //    lvlManager.AddItem(shopPrefab.GetComponent<Building>().Type, itemPrice);
+        //}
         
     }
 }

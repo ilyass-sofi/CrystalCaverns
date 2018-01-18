@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c615a26acb7532849bc0e60836094501, type: 3}
+  m_Name: 1. Barricade
+  m_EditorClassIdentifier: 
+  buildingName: Barricada
+  description: "Un muro de piedras que impedir\xE1 el paso de los enemigos."
+  cost: 10
+  buildingLimit: 20
+  sprite: {fileID: 21300000, guid: 6e035960021704c45876b4742ef6f3d0, type: 3}
+  buildingPrefab: {fileID: 1466024768475092, guid: 522b4b501108f5f418bd708584e00e70,
+    type: 2}
