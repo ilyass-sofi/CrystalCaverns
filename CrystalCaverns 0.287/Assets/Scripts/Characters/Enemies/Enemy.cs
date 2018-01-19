@@ -28,7 +28,8 @@ public abstract class Enemy : Character
     [SerializeField] protected int value= 1;
 
     [SerializeField] protected int goldDrop;
-    [SerializeField] protected int dropPercent;
+    [SerializeField] protected int goldDropPercent;
+    [SerializeField] protected GameObject[] lootPrefabs;
     [SerializeField] private GameObject damageTextPrefab;
 
     void Awake()
@@ -131,7 +132,12 @@ public abstract class Enemy : Character
 
     }
 
-    protected abstract void Loot();
-
-    public abstract int GetValue();
+    protected void Loot()
+    {
+        if (Random.Range(1, 100) <= goldDropPercent)
+        {
+            GameObject cristal = Instantiate(lootPrefabs[0], transform.position, transform.rotation);
+            cristal.GetComponent<Looteable>().Crystal = goldDrop;
+        }
+    }
 }

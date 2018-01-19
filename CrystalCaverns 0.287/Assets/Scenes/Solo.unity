@@ -1967,11 +1967,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114312302154275092, guid: 1b772c1b3b10bf24c908204b6ef56380,
-        type: 2}
-      propertyPath: buildingImages.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4509921083311434, guid: 1b772c1b3b10bf24c908204b6ef56380, type: 2}
       propertyPath: m_LocalPosition.x
       value: -41.20483
@@ -2004,21 +1999,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114312302154275092, guid: 1b772c1b3b10bf24c908204b6ef56380,
-        type: 2}
-      propertyPath: firstTrapQuantity
-      value: 
-      objectReference: {fileID: 2141661541}
-    - target: {fileID: 114312302154275092, guid: 1b772c1b3b10bf24c908204b6ef56380,
-        type: 2}
-      propertyPath: secondTrapQuantity
-      value: 
-      objectReference: {fileID: 1535584406}
-    - target: {fileID: 114312302154275092, guid: 1b772c1b3b10bf24c908204b6ef56380,
-        type: 2}
-      propertyPath: thirdTrapQuantity
-      value: 
-      objectReference: {fileID: 1353617065}
     - target: {fileID: 114312302154275092, guid: 1b772c1b3b10bf24c908204b6ef56380,
         type: 2}
       propertyPath: buildingImages.Array.data[0]
@@ -15129,16 +15109,21 @@ MonoBehaviour:
   - {fileID: 1429525242}
   - {fileID: 1909586164}
   shop: {fileID: 596625828}
+  waves:
+  - name: 1-100
+    untilWave: 100
+    waveSplit: 1
+    timeBetMiniWaves: 0
+    timeBetEnemies: 2
+    enemyTypesInWave:
+    - name: Puta
+      enemies: 2
+      enemiesModifier: 2
+      enemyPrefab: {fileID: 1663855183208222, guid: 3c6cfac65c90ee74c98334af6d1aa72c,
+        type: 2}
   spawners:
   - {fileID: 1834622723}
   - {fileID: 1782123372}
-  defaultTimeBetEnemies: 0
-  timeBetWaves: 0
-  waveDificultyValue: 0
-  waveDificultyModifier: 0
-  enemies:
-  - {fileID: 1663855183208222, guid: 3c6cfac65c90ee74c98334af6d1aa72c, type: 2}
-  - {fileID: 1663855183208222, guid: cf3cfcb4f01538444b4bd1dbb494eb74, type: 2}
   wayToBasePrefab: {fileID: 1117309125513038, guid: f791c673603f8454ebc0462a8d8f99cc,
     type: 2}
 --- !u!1001 &2049761220

@@ -282,7 +282,9 @@ MonoBehaviour:
   enemyName: Orc
   value: 3
   goldDrop: 30
-  dropPercent: 100
+  goldDropPercent: 0
+  lootPrefabs:
+  - {fileID: 1319308627134764, guid: 817934aac079134409f70b85492632e0, type: 2}
   damageTextPrefab: {fileID: 1849708290496194, guid: 4b1b69aeade44af4d916c7e2bc2999d6,
     type: 2}
 --- !u!114 &114019343286091390

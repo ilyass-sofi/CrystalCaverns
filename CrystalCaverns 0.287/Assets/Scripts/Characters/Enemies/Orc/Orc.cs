@@ -23,6 +23,7 @@ public class Orc : Enemy {
         CurrentSpeed = BaseSpeed;
 
         goldDrop = 30;
+        goldDrop = 10;
         goldDropPercent = 100;
     }
 
