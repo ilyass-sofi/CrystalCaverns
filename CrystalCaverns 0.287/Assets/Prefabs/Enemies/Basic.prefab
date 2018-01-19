@@ -28,7 +28,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1149827620979030
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,10 +279,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a6384361ec33ec4197bb2beafb17d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyName: Goblin
+  value: 1
   goldDrop: 10
-  goldDropPercent: 0
-  lootPrefabs:
-  - {fileID: 1319308627134764, guid: 817934aac079134409f70b85492632e0, type: 2}
+  dropPercent: 100
   damageTextPrefab: {fileID: 1849708290496194, guid: 4b1b69aeade44af4d916c7e2bc2999d6,
     type: 2}
 --- !u!114 &114758974769634428

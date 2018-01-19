@@ -16,9 +16,17 @@ public class RaycastController : MonoBehaviour
         set { normalRaycast = value; }
     }
 
-    private Vector3 normalTarget;
+    private Vector3 normalPosition;
 
-    public Vector3 NormalTarget
+    public Vector3 NormalPosition
+    {
+        get { return normalPosition; }
+        set { normalPosition = value; }
+    }
+
+    private GameObject normalTarget; 
+
+    public GameObject NormalTarget
     {
         get { return normalTarget; }
         set { normalTarget = value; }
@@ -37,15 +45,23 @@ public class RaycastController : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             RaycastHit hit;
-            //LayerMask.LayerToName(3);
+
             if (Physics.Raycast(ray, out hit, 200, layers))
             {
+                if (hit.transform.gameObject.CompareTag("Enemy"))
+                {
+                    normalTarget = hit.transform.gameObject;
+                }
+                else
+                {
+                    normalTarget = null;
+                }
                 
-                normalTarget = hit.point;
+                normalPosition = hit.point;
             }
             else
             {
-                normalTarget = ray.origin + (ray.direction * 100);
+                normalPosition = ray.origin + (ray.direction * 100);
             }
         }
 

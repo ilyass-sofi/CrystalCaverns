@@ -19,5 +19,5 @@ MonoBehaviour:
     recoger los pilares para sumar una roca punzante. ( debe estar a 2 unidades y
     clicar sobre esta)\r\n"
   sprite: {fileID: 21300000, guid: 8605cd774519eae4fb3b78d35aa7a2cf, type: 3}
-  path: 
+  path: Pilar
   cooldown: 6

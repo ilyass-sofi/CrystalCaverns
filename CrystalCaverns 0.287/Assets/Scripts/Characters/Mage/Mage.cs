@@ -9,28 +9,41 @@ public abstract class Mage : Character
 
     protected RaycastController rayCont;
     protected Transform shootPoint;
-
     protected GameObject groundSprite;
     protected GameObject zone;
 
-    private enum BarName { Health, Gold }
+    private enum BarName { Health, Gold, Shield }
 
     private int gold;
 
     [Tooltip("No Cooldown")]
     public bool godMode;
-
+    protected bool shield;
     protected bool combat = true;
+    protected bool zonePlacementFlag;
+
+    private float maxShieldValue;
+
+    private float shieldValue;
+
+    private Transform enemyHpBarPanel;
+    private bool enemyBar;
+    private Enemy selectedEnemy;
 
     #region HUD References
 
     private Image hpBar;
+    private Image shieldBar;
     private Text healthText;
     private Text goldText;
     private Image firstSpellImg;
     private Image secondSpellImg;
     private Image ultSpellImg;
 
+    private Image enemyHpBar;
+    private Text enemyHealthText;
+    private Text enemyName;
+    private GameObject enemyEffects;
     #endregion
 
     #region Spell Prefabs
@@ -64,29 +77,58 @@ public abstract class Mage : Character
 
     public virtual void Awake()
     {
-        MageAsset mageSelect = GameObject.Find("MenuManager").GetComponent<PassThroughScene>().SelectedMage;
+        
 
-
-        if (mageSelect != null) SetMageAsset(mageSelect);
-        else SetMageAsset();
-
-
-        rayCont = GetComponent<RaycastController>();
-        shootPoint = transform.GetChild(0).GetChild(0);
-
-        Gold = 5000;
+        
         
     }
 
     public virtual void Update()
     {
         SpellsCooldownEffect();
+
+        
+        if (rayCont.NormalTarget != null )
+        {
+            
+            selectedEnemy = rayCont.NormalTarget.GetComponent<Enemy>();
+            enemyName.text = selectedEnemy.EnemyName;
+            enemyHpBarPanel.gameObject.SetActive(true);
+        }
+       
+
+        if (selectedEnemy)
+        {
+            GameObject enemyBurn = enemyEffects.transform.GetChild(0).gameObject;
+
+            if (selectedEnemy.IsBurning)
+            {
+                enemyBurn.SetActive(true);
+                enemyBurn.GetComponent<Image>().fillAmount = selectedEnemy.transform.Find("Burn").GetComponent<Burn>().getTimeLeft() / selectedEnemy.transform.Find("Burn").GetComponent<Burn>().getBaseDuration();
+            } 
+            else
+            {
+                enemyBurn.SetActive(false);
+            }
+
+            enemyHpBar.fillAmount = selectedEnemy.Health / selectedEnemy.HealthMax;
+            enemyHealthText.text = (int)selectedEnemy.Health + "/" + selectedEnemy.HealthMax;
+            
+        }
+        else
+        {
+            enemyHpBarPanel.gameObject.SetActive(false);
+        }
     }
 
     public void SetMageAsset(MageAsset _mageAsset = null)
     {   
         if(_mageAsset != null)
         mageAsset = _mageAsset;
+
+        rayCont = GetComponent<RaycastController>();
+        shootPoint = transform.GetChild(0).GetChild(0);
+        
 
         GetHUDReferences();
         LoadPrefabSpells();
@@ -157,6 +199,9 @@ public abstract class Mage : Character
         // Get HealthBar and HealthText
         hpBar = hpBarPanel.Find("HealthBar").GetComponent<Image>();
         healthText = hpBarPanel.Find("HealthText").GetComponent<Text>();
+        //Get Shield
+        shieldBar = hpBarPanel.Find("ShieldBar").GetComponent<Image>();
+        if (!shield) shieldBar.gameObject.SetActive(false);
         // Get GoldText
         goldText = GameObject.FindGameObjectWithTag("GoldText").GetComponent<Text>();
         // Get SpellBar
@@ -165,6 +210,16 @@ public abstract class Mage : Character
         firstSpellImg = spellBar.Find("FirstAbility").GetComponent<Image>();
         secondSpellImg = spellBar.Find("SecondAbility").GetComponent<Image>();
         ultSpellImg = spellBar.Find("Ultimate").GetComponent<Image>();
+
+        enemyHpBarPanel = GameObject.FindGameObjectWithTag("EnemyHealthBar").transform;
+
+        enemyHpBar = enemyHpBarPanel.Find("EnemyHealthBar").GetComponent<Image>();
+        enemyHealthText = enemyHpBarPanel.Find("EnemyHealthText").GetComponent<Text>();
+        enemyName = enemyHpBarPanel.Find("EnemyName").GetComponent<Text>();
+
+        enemyEffects = enemyHpBarPanel.Find("EnemyEffects").gameObject;
+
+
     }
 
     /// <summary>
@@ -199,12 +254,15 @@ public abstract class Mage : Character
         HealthMax = mageAsset.baseHealth;
         Health = HealthMax;//this should be done on character
         Damage = mageAsset.baseDamage;
+        Gold = 5000;
 
+        if (shield) ShieldValue = MaxShieldValue;
         //basicCd = mageAsset.passiveSpell.cooldown;
         basicCd = mageAsset.basicAttack.cooldown;
         firstSpellCd = mageAsset.firstSpell.cooldown;
         secondSpellCd = mageAsset.secondSpell.cooldown;
         ultimateCd = mageAsset.ultimate.cooldown;
+
     }
 
     public bool Combat
@@ -226,13 +284,46 @@ public abstract class Mage : Character
         }
     }
 
+    public float ShieldValue
+    {
+        get { return shieldValue; }
+        set
+        {
+            shieldValue = value;
+            Visual(BarName.Shield);
+        }
+    }
+
+    public float MaxShieldValue
+    {
+        get { return maxShieldValue; }
+        set { maxShieldValue = value;}
+    }
+
     protected override void SetSpeed(float speedValue)
     {
         //GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>(). = speedValue;
     }
 
     protected override void SetHealth(float healthValue)
-    {
+    {   
+        if(shieldValue > 0)
+        {   
+            if(shieldValue < healthValue)
+            {
+                float remaining = healthValue - shieldValue;
+                ShieldValue = 0;
+                healthValue = remaining;
+            }
+            else
+            {
+                ShieldValue -= -healthValue;
+                healthValue = 0;
+            }
+
+        }
+        
+
         base.SetHealth(healthValue);
         Visual(BarName.Health);
     }
@@ -264,6 +355,10 @@ public abstract class Mage : Character
             case BarName.Gold:
                 goldText.text = gold.ToString();
                 break;
+
+            case BarName.Shield:
+                shieldBar.fillAmount = ShieldValue / maxShieldValue;
+                break;
         };
     }
 
@@ -272,4 +367,77 @@ public abstract class Mage : Character
     public abstract void SecondSpell();
     public abstract void Ultimate();
 
+    // Zone Casting
+    protected bool ZonePlacement(ref float nextCd, ref float baseCd, ref bool flag, float range, float damageMultiplier, GameObject prefab)
+    {
+        bool castMade = false;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        //Send a raycast to the cam direction ignoring the object that you are building within a specified range
+        if (Physics.Raycast(ray, out hit, 60, 9))
+        {
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                ClearPlacementZone(ref flag);
+            }
+
+            if (hit.transform.gameObject.CompareTag("Ground"))
+            {
+                zone.SetActive(true);
+                //Place the zone
+                zone.transform.position = hit.point;
+                //Get his image for recoloring purposes
+                GameObject zoneImage = zone.transform.GetChild(0).gameObject;
+
+                //If the distance is under the range then paint it correctly
+                if (Vector3.Distance(transform.position, hit.point) < range)
+                {
+                    zoneImage.GetComponent<SpriteRenderer>().color = Color.white;
+
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        nextCd = Time.time + baseCd;
+                        flag = false;
+                        zonePlacementFlag = false;
+                        GameObject spell = Instantiate(prefab, hit.point, prefab.transform.rotation);
+                        spell.GetComponent<Spell>().Damage = Damage * damageMultiplier;
+                        Destroy(zone);
+                        castMade = true;
+                        
+                    }
+                }
+                //If not then paint as another color
+                else zoneImage.GetComponent<SpriteRenderer>().color = Color.black;
+
+                
+
+            }
+            else zone.SetActive(false);
+        }
+        else zone.SetActive(false);
+
+        return castMade;
+    }
+
+    protected void ClearPlacementZone(ref bool flag)
+    {
+        Destroy(zone);
+        flag = false;
+        zonePlacementFlag = false;
+    }
+
+    protected void ClearPlacementZone(ref bool[] flag)
+    {
+        Destroy(zone);
+
+        for (int i = 0; i < flag.Length; i++)
+        {
+            flag[i] = false;
+        }
+
+        zonePlacementFlag = false;
+    }
 }

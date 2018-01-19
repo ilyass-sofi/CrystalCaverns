@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Inputs : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class Inputs : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Friendly");
         mage = player.GetComponent<Mage>();
         builder = player.GetComponent<Builder>();
+        
     }
 
     void Update()

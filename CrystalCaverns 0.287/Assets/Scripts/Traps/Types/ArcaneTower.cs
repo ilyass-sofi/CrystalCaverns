@@ -74,11 +74,7 @@ public class ArcaneTower : MonoBehaviour
         //transform.parent.transform.Rotate(Vector3.up * 250 * Time.deltaTime);
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        //Destroy();
-    }
-
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Enemy")

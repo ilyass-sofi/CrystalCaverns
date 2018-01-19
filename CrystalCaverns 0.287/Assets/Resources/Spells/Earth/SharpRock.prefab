@@ -38,9 +38,8 @@ GameObject:
   - component: {fileID: 4622716434655114}
   - component: {fileID: 33435924546328280}
   - component: {fileID: 23068388406273994}
-  - component: {fileID: 54445808262898072}
   - component: {fileID: 135341495543932788}
-  - component: {fileID: 108404037318361416}
+  - component: {fileID: 54445808262898072}
   - component: {fileID: 114236833060137566}
   m_Layer: 10
   m_Name: SharpRock
@@ -161,42 +160,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 2
---- !u!108 &108404037318361416
-Light:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1714069411417660}
-  m_Enabled: 0
-  serializedVersion: 8
-  m_Type: 2
-  m_Color: {r: 1, g: 0.31034482, b: 0, a: 1}
-  m_Intensity: 3
-  m_Range: 15
-  m_SpotAngle: 30
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_Lightmapping: 4
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
 --- !u!114 &114236833060137566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,7 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73da51f9482d4d545846408b5deff5f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionPrefab: {fileID: 0}
+  explosionPrefab: {fileID: 1150329652767972, guid: aa06841a5271b4c46b3b8e2a0cd388f7,
+    type: 2}
   timeDestroy: 5
 --- !u!135 &135341495543932788
 SphereCollider:

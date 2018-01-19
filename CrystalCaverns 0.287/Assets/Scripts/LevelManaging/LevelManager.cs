@@ -178,11 +178,6 @@ public class LevelManager : MonoBehaviour
         shopPanel.transform.GetChild(3).GetComponent<Image>().sprite = sprite;
     }
 
-    public void AddItem(string name, int price)
-    {
-        player.GetComponent<Builder>().AddItemInventory(name, price);
-    }
-
     public void ToggleCrosshair(bool value)
     {
         UIManager.GetComponent<Crosshair>().drawCrosshair = value;

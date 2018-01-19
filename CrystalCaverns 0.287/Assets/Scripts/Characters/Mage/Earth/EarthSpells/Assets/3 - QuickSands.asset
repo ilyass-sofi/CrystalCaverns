@@ -16,5 +16,5 @@ MonoBehaviour:
     da\xF1o\r\n20 de da\xF1o b\xE1sico en un radio de 6 unidades.\r\n10 segundos de
     CD\r\n"
   sprite: {fileID: 21300000, guid: 8605cd774519eae4fb3b78d35aa7a2cf, type: 3}
-  path: 
+  path: QuickSands
   cooldown: 10

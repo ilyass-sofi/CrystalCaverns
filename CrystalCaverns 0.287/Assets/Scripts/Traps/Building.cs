@@ -5,14 +5,6 @@ using UnityEngine.UI;
 
 public class Building : MonoBehaviour
 {
-    [SerializeField] private Sprite sprite;
-
-    public Sprite Sprite
-    {
-        get { return sprite; }
-        set { sprite = value; }
-    }
-
 
     [SerializeField] private bool trigger;
 
@@ -21,31 +13,6 @@ public class Building : MonoBehaviour
         get { return trigger; }
         set { trigger = value; }
     }
-
-    [SerializeField] private string type;
-
-    public string Type
-    {
-        get { return type; }
-        set { type = value; }
-    }
-
-    [SerializeField] private int price;
-
-    public int Price
-    {
-        get { return price; }
-        set { price = value; }
-    }
-
-    [SerializeField] private string description;
-
-    public string Description
-    {
-        get { return description; }
-        set { description = value; }
-    }
-
 
 
     /// <summary>
@@ -71,8 +38,8 @@ public class Building : MonoBehaviour
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerStay(Collider other)
-    {   
-        if(other.tag != "Trigger")
+    {
+        if (!other.CompareTag("Trigger"))
             buildable = false;
     }
 
@@ -82,7 +49,7 @@ public class Building : MonoBehaviour
     /// <param name="other"></param>
     void OnTriggerExit(Collider other)
     {
-        if (other.tag != "Trigger")
+        if (!other.CompareTag("Trigger"))
             buildable = true;
     }
 

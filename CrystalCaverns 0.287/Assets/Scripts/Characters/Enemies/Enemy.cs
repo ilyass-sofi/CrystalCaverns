@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public abstract class Enemy : Character
 {
+    [SerializeField] protected string enemyName;
+
     /// <summary>
     /// Spawner that spawned this enemy
     /// </summary>
@@ -19,17 +21,44 @@ public abstract class Enemy : Character
     protected bool defaultTarget;
     protected float visionRange = 10;
 
+    protected bool slowed;
+    protected float slowDuration;
+    protected float currentSlowValue = 1;
+
+    [SerializeField] protected int value= 1;
+
     [SerializeField] protected int goldDrop;
-    [SerializeField] protected int goldDropPercent;
-    [SerializeField] protected GameObject[] lootPrefabs;
+    [SerializeField] protected int dropPercent;
     [SerializeField] private GameObject damageTextPrefab;
 
     void Awake()
     {
         defaultTarget = true;
-
     }
-    
+
+
+    public virtual void Update()
+    {
+        if (slowed)
+        {
+            slowDuration -= Time.deltaTime;
+            if (slowDuration < 0)
+            {   
+
+                slowed = false;
+                currentSlowValue = 1;
+                SetSpeed(baseSpeed);
+
+            }
+        }
+        
+    }
+
+    public string EnemyName
+    {
+        get { return enemyName; }
+        set { enemyName = value; }
+    }
 
     protected override void SetSpeed(float speedValue)
     {
@@ -45,12 +74,8 @@ public abstract class Enemy : Character
 
     public void SetTarget(GameObject _target)
     {
-        
         currentTarget = _target;
         agent.SetDestination(currentTarget.transform.position);
-
-        
-
     }
 
     public void SetSpawner(GameObject _spawner)
@@ -65,14 +90,28 @@ public abstract class Enemy : Character
 
     protected override void GameOver()
     {
+       
         Loot();
         Kill();
+       
     }
 
     public void Kill()
     {
         spawner.GetComponent<Spawn>().KillEnemy();
         Destroy(gameObject);
+    }
+
+    public void Slow(float value, float duration)
+    {
+        if (value <= currentSlowValue )
+        {
+            
+            slowDuration = duration;
+            slowed = true;
+            currentSlowValue = value;
+            SetSpeed(currentSlowValue);
+        }
     }
 
 
@@ -92,12 +131,7 @@ public abstract class Enemy : Character
 
     }
 
-    protected void Loot()
-    {
-        if (Random.Range(1, 100) <= goldDropPercent)
-        {
-            GameObject cristal = Instantiate(lootPrefabs[0],transform.position,transform.rotation);
-            cristal.GetComponent<Looteable>().Crystal = goldDrop;
-        }
-    }
+    protected abstract void Loot();
+
+    public abstract int GetValue();
 }
