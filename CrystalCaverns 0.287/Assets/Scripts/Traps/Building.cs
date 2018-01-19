@@ -39,6 +39,7 @@ public class Building : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerStay(Collider other)
     {
+        print(other.tag);
         if (!other.CompareTag("Trigger"))
             buildable = false;
     }

@@ -59,10 +59,10 @@ public class LevelManager : MonoBehaviour
 
         //Loading up assets and references
         UIManager = GameObject.FindGameObjectWithTag("UIManager");
-        shops = GameObject.FindGameObjectsWithTag("Shop");
+        //shops = GameObject.FindGameObjectsWithTag("Shop");
         player = GameObject.FindGameObjectWithTag("Friendly");
-        openShopMat = (Material)Resources.Load("Materials/GreenEmissive");
-        closedShopMat = (Material)Resources.Load("Materials/RedEmissive");
+        //openShopMat = (Material)Resources.Load("Materials/GreenEmissive");
+        //closedShopMat = (Material)Resources.Load("Materials/RedEmissive");
     }
 
     void Start()
@@ -139,19 +139,19 @@ public class LevelManager : MonoBehaviour
         player.GetComponent<Builder>().BuildingState = !player.GetComponent<Builder>().BuildingState;
         player.GetComponent<RaycastController>().NormalRaycast = !player.GetComponent<RaycastController>().NormalRaycast;
 
-        Material shopMat = null;
+        //Material shopMat = null;
 
-        if (levelCurrentPhase == LevelPhase.Building) shopMat = openShopMat;
-        else if (levelCurrentPhase == LevelPhase.Wave) shopMat = closedShopMat;
+        //if (levelCurrentPhase == LevelPhase.Building) shopMat = openShopMat;
+        //else if (levelCurrentPhase == LevelPhase.Wave) shopMat = closedShopMat;
 
-        for (int i = 0; i < shops.Length; i++)
-        {
-            //Change material
-            shops[i].GetComponent<Renderer>().material = shopMat;
-            GameObject shopTrigger = shops[i].transform.GetChild(0).gameObject;
-            shopTrigger.SetActive(!shopTrigger.activeSelf);
-        }
-        shopPanel.SetActive(false);
+        //for (int i = 0; i < shops.Length; i++)
+        //{
+        //    //Change material
+        //    shops[i].GetComponent<Renderer>().material = shopMat;
+        //    GameObject shopTrigger = shops[i].transform.GetChild(0).gameObject;
+        //    shopTrigger.SetActive(!shopTrigger.activeSelf);
+        //}
+        //shopPanel.SetActive(false);
     }
 
     public void ToggleShopPanel()

@@ -10,13 +10,13 @@ TagManager:
   - Friendly
   - Trigger
   - LevelManager
-  - Shop
   - UIManager
   - WayToBase
   - HealthBar
   - GoldText
   - SpellBar
   - EnemyHealthBar
+  - Loot
   layers:
   - Default
   - TransparentFX
