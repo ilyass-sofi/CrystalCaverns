@@ -13,7 +13,7 @@ public class LootCollector : MonoBehaviour
         {
             foreach(GameObject obj in loot)
             {
-                obj.transform.position = Vector3.MoveTowards(obj.transform.position, transform.position,0.03f);
+                obj.transform.position = Vector3.MoveTowards(obj.transform.position, transform.position,0.5f);
             }
         }
     }
